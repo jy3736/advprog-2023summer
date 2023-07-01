@@ -1,0 +1,1002 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Formative Assessment : C Programming Basics</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="1fd285c2-fa9a-4094-b334-15e794a9e266" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Formative%20Assessment%20C%20Programming%20Basics%201fd285c2fa9a4094b33415e794a9e266/800x800.png"/></div><h1 class="page-title">Formative Assessment : C Programming Basics</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><p id="1d4702fa-7cc3-4a4d-a958-3c92b05af650" class="">The formative assessment problem set covers the following topics:</p><ol type="1" id="ac852d7d-1d7b-4a18-be99-8efd759650a8" class="numbered-list" start="1"><li>Fundamentals of C programming</li></ol><ol type="1" id="04762cbe-48ea-406d-9b34-a62f1f355c67" class="numbered-list" start="2"><li>Data types in C</li></ol><ol type="1" id="e8142e7f-02e0-470a-8981-6516c7a8096f" class="numbered-list" start="3"><li>Constants in C</li></ol><ol type="1" id="87bfbe97-0f06-4f33-887b-3b3c06920eb8" class="numbered-list" start="4"><li>Variables and their usage</li></ol><ol type="1" id="01c9331e-6986-4e85-b0cd-6d53c920615f" class="numbered-list" start="5"><li>Understanding scope: global and local variables</li></ol><ol type="1" id="3bfe66af-3465-4865-b80c-c76680e27ccd" class="numbered-list" start="6"><li>Mathematical and logical operators in C</li></ol><h3 id="7ee50edd-e312-44ce-9fba-776be282fa3f" class="block-color-teal_background">Formative Assessment</h3><ol type="1" id="7bccd60c-890c-4497-9fc0-901a89ac7311" class="numbered-list" start="1"><li>What is the purpose of a variable in programming?
+A. To store and manipulate data.
+B. To perform mathematical operations.
+C. To execute program instructions.
+D. To display output.
+[Answer: A]</li></ol><ol type="1" id="a74c09e4-9627-44ec-8ee3-1ba011819a32" class="numbered-list" start="2"><li>Which of the following is a valid C variable name?
+A. myVariable1
+B. 1variable
+C. variable@
+D. variable-name
+[Answer: A]</li></ol><ol type="1" id="405c56c1-ec73-48bf-aaed-cac0caa6681f" class="numbered-list" start="3"><li>What is the scope of a local variable?
+A. It can be accessed by any function in the program.
+B. It can only be accessed within the function where it is declared.
+C. It can be accessed by any function within the same file.
+D. It can be accessed from any file in the program.
+[Answer: B]</li></ol><ol type="1" id="f4c2019d-e576-4ab4-927a-4dca8e6982d5" class="numbered-list" start="4"><li>What is the data type of the variable &quot;num&quot; in the following declaration: int num;
+A. Integer
+B. Character
+C. String
+D. Floating-point
+[Answer: A]</li></ol><ol type="1" id="6be308af-19b4-49bb-9c2f-e88d5e89e96d" class="numbered-list" start="5"><li>Which of the following is a constant in C?
+A. x = 5;
+B. const int y = 10;
+C. z = x + y;
+D. int a;
+[Answer: B]</li></ol><ol type="1" id="8811ed0f-0643-4a59-986f-41a2acd65ae9" class="numbered-list" start="6"><li>What is the difference between a local variable and a global variable?
+A. Local variables are declared inside functions, while global variables are declared outside functions.
+B. Local variables can be accessed from anywhere in the program, while global variables can only be accessed within functions.
+C. Local variables have a shorter lifespan than global variables.
+D. Local variables can be modified, while global variables are constant.
+[Answer: A]</li></ol><ol type="1" id="5febeeda-307b-472e-a4e5-6a2362ec71d3" class="numbered-list" start="7"><li>Which data type is used to store a single character in C?
+A. char
+B. int
+C. float
+D. double
+[Answer: A]</li></ol><ol type="1" id="e9b266a2-8328-4d5e-8854-e7d314318963" class="numbered-list" start="8"><li>What is the value of the expression: 10 % 3?
+A. 3
+B. 1
+C. 10
+D. 0
+[Answer: B]</li></ol><ol type="1" id="f9855f22-53ab-48a7-bc7f-259f42faf9ed" class="numbered-list" start="9"><li>What does the &quot;sizeof&quot; operator return in C?
+A. The size of a variable in bytes.
+B. The value of a variable.
+C. The memory address of a variable.
+D. The type of a variable.
+[Answer: A]</li></ol><ol type="1" id="223e508f-8fe9-4268-b5c7-0695b90cff5f" class="numbered-list" start="10"><li>What is the output of the following code snippet?<pre id="0b601643-5c11-4c1d-a581-c87dfe315571" class="code code-wrap"><code>int x = 5;
+printf(&quot;%d&quot;, ++x);
+</code></pre><p id="b2bbe997-e0b9-453e-87e4-97ade2a75146" class="">A. 5
+B. 6
+C. 4
+D. Compilation error
+[Answer: B]</p></li></ol><ol type="1" id="0a2643cb-2293-4bf3-9e29-09e205cd6ca7" class="numbered-list" start="11"><li>What is the purpose of the &quot;if&quot; statement in programming?
+A. To declare variables.
+B. To perform repetitive tasks.
+C. To execute a block of code conditionally.
+D. To terminate the program.
+[Answer: C]</li></ol><ol type="1" id="47dbff04-aa60-4758-a0c4-9302ac54a067" class="numbered-list" start="12"><li>Which of the following is a valid way to comment a single-line code in C?
+A. /* Comment */<p id="cd60ba4e-195b-4198-9d73-dcec36a83abb" class="">B. # Comment
+C. // Comment
+D. -- Comment
+[Answer: C]</p></li></ol><ol type="1" id="7cde3af0-e1be-410b-95b9-1d22b54f8c93" class="numbered-list" start="13"><li>What is the value of the expression: (3 + 2) * 4 / 2 ?
+A. 5
+B. 6
+C. 8
+D. 10
+[Answer: D]</li></ol><ol type="1" id="0e9d9858-9e8b-4c30-95b2-68622e8786b5" class="numbered-list" start="14"><li>What is the purpose of the &quot;while&quot; loop in programming?
+A. To iterate a block of code a specific number of times.
+B. Repeatedly execute a block of code as long as a given condition remains true.
+C. To perform a task once and then terminate.
+D. To perform a task based on multiple conditions.
+[Answer: B]</li></ol><ol type="1" id="bea928b9-a2f7-4cca-805b-5bf156028d6c" class="numbered-list" start="15"><li>What is the output of the following code snippet?<pre id="93020c8a-a71f-44c4-a63d-d7374d9fce15" class="code code-wrap"><code>int x = 5;
+printf(&quot;%d&quot;, x++);
+</code></pre><p id="5788da75-7ce3-4d71-8c21-9c9b5f690a98" class="">A. 5
+B. 6
+C. 4
+D. Compilation error
+[Answer: A]</p></li></ol><ol type="1" id="fc08ba84-8e58-4e22-b8ec-a250e4c029d1" class="numbered-list" start="16"><li>Which of the following is a valid way to declare and initialize a constant integer in C?
+A. constant int x = 5;
+B. const int x = 5;
+C. int x = 5 const;
+D. int const x = 5;
+[Answer: B]</li></ol><ol type="1" id="a9317279-af7c-41f2-88fa-700241954bdd" class="numbered-list" start="17"><li>What is the purpose of the &quot;return&quot; statement in a function?
+A. To terminate the program.
+B. To print output to the console.
+C. To skip the execution of the next statement.
+D. To return a value from the function.
+[Answer: D]</li></ol><ol type="1" id="96000f9d-5401-40d6-a6d7-c7d7313e05cd" class="numbered-list" start="18"><li>What is the value of the expression: 5 + 3 * 2 - 1 ?
+A. 9
+B. 10
+C. 11
+D. 12
+[Answer: B]</li></ol><ol type="1" id="fa697780-20cb-4cf8-8217-6625d1368fee" class="numbered-list" start="19"><li>Which of the following is NOT a valid data type in C?
+A. char
+B. string
+C. double
+D. long
+[Answer: B]</li></ol><ol type="1" id="ce3f4a59-c6a5-4a34-bbd7-cc73581f947b" class="numbered-list" start="20"><li>What is a constant in programming?
+A) A variable that can be changed
+B) A fixed value that cannot be altered
+C) A data type used to store text
+D) A keyword reserved for control structures
+Answer: B</li></ol><ol type="1" id="a7727126-b5c6-48f3-92a5-665f31a97e09" class="numbered-list" start="21"><li>Which of the following is a valid data type in C?
+A) string
+B) boolean
+C) char
+D) real
+Answer: C</li></ol><ol type="1" id="c3478579-fd97-413c-b70b-4df27a779d55" class="numbered-list" start="22"><li>What is the scope of a local variable?
+A) It can be accessed by any function in the program
+B) It can be accessed only within the block where it is declared
+C) It can be accessed from any file in the program
+D) It can be accessed by any function within the same module
+Answer: B</li></ol><ol type="1" id="90f6d061-1032-4073-b35e-37689f6365bc" class="numbered-list" start="23"><li>What happens when a local variable has the same name as a global variable?
+A) The local variable takes precedence over the global variable
+B) The global variable takes precedence over the local variable
+C) The program generates a compilation error
+D) Both variables are combined into a single variable
+Answer: A</li></ol><ol type="1" id="b49659dd-bc78-4bb8-ad31-b36e50205eb9" class="numbered-list" start="24"><li>What is the output of the following code snippet?<pre id="e09b4755-7175-42ec-bcff-c95fd24b32c5" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+int x = 10;
+
+void func() {
+    int x = 5;
+    printf(&quot;%d&quot;, x);
+}
+
+int main() {
+    func();
+    return 0;
+}</code></pre><p id="8845fafb-1748-477b-b083-bb9362a842ed" class="">A) 5
+B) 10
+C) 15
+D) Compilation error
+Answer: A</p></li></ol><ol type="1" id="1002e1d0-f91a-4a92-b01e-3cb95c55b99d" class="numbered-list" start="25"><li>Which of the following is a valid constant declaration in C?
+A) const float PI = 3.14;
+B) constant int SIZE = 10;
+C) const var MAX = 100;
+D) const double = 2.71828;
+Answer: A</li></ol><ol type="1" id="fec08336-4d04-4ba2-a3d7-25c948cc5781" class="numbered-list" start="26"><li>Which keyword is used to declare a constant in C?
+A) fixed
+B) const
+C) final
+D) constant
+Answer: B</li></ol><ol type="1" id="f3a245e9-93fb-46e9-b5ed-0f95430a5305" class="numbered-list" start="27"><li>What is the maximum number of characters a variable name can have in C?
+A) 8
+B) 16
+C) 32
+D) There is no specific limit
+Answer: D</li></ol><ol type="1" id="b2261748-1cf0-4dda-8a97-7bdeba935e80" class="numbered-list" start="28"><li>Which of the following is a valid variable name in C?
+A) 3rdNumber
+B) my_variable
+C) float
+D) main
+Answer: B</li></ol><ol type="1" id="fe000206-0671-44e8-8e26-11076c445f63" class="numbered-list" start="29"><li>What is the output of the following code snippet?<pre id="ec7ff604-0576-4c3f-bbf5-3985fb909f47" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int x = 10;
+    if (x &gt; 5) {
+        int y = 20;
+        printf(&quot;%d&quot;, y);
+    }
+    printf(&quot;%d&quot;, y);
+    return 0;
+}
+</code></pre><p id="d5f2ebcc-11c1-449b-9dea-3a0430e0a4ed" class="">A) 20
+B) 10
+C) Compilation error
+D) Undefined behavior
+Answer: C</p></li></ol><ol type="1" id="59a71b2e-d593-4953-ab5b-8a8e50a0faf1" class="numbered-list" start="30"><li>Which data type is used to store single characters in C?
+A) char
+B) string
+C) character
+D) single
+Answer: A</li></ol><ol type="1" id="1a524286-e952-432a-b9f5-a556301e02ed" class="numbered-list" start="31"><li>What is the default value of an uninitialized global variable in C?
+A) 0
+B) 1
+C) -1
+D) Undefined
+Answer: A</li></ol><ol type="1" id="c6155b35-dc7b-48f4-a65b-f30c7b7ab068" class="numbered-list" start="32"><li>Which of the following is a valid way to declare and initialize a constant in C?
+A) constant int MAX = 100;
+B) const float PI = 3.14;
+C) int constant SIZE = 10;
+D) const double = 2.71828;
+Answer: B</li></ol><ol type="1" id="3a321232-a21d-4caf-9932-1d3b20bd4293" class="numbered-list" start="33"><li>What is the purpose of a global variable in programming?
+A) To limit the visibility of a variable
+B) To store intermediate results in a function
+C) To provide a way to share data across multiple functions
+D) To improve program performance
+Answer: C</li></ol><ol type="1" id="b8b1d35b-b158-4eeb-810e-e9f4dcdfcda2" class="numbered-list" start="34"><li>What is the output of the following code snippet?<pre id="63aca135-259d-4aa0-b008-037c1e75f69b" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+void func() {
+    static int x = 0;
+    x++;
+    printf(&quot;%d&quot;, x);
+}
+
+int main() {
+    func();
+    func();
+    func();
+    return 0;
+}</code></pre><p id="08405aab-18a6-4ea3-9a4d-574256fbd12b" class="">A) 0 1 2
+B) 1 2 3
+C) 1 1 1
+D) Compilation error
+Answer: B</p></li></ol><ol type="1" id="a9b4607c-4ee2-4078-98d2-a7b41756db64" class="numbered-list" start="35"><li>Which data type is used to store decimal numbers with single precision in C?
+A) float
+B) double
+C) real
+D) decimal
+Answer: A</li></ol><ol type="1" id="767b5b0b-7fe8-4d15-ab36-03e2d9daee1a" class="numbered-list" start="36"><li>What is the purpose of the &quot;extern&quot; keyword in C?
+A) To specify the storage class of a variable
+B) To declare a global variable
+C) To import functions from another file
+D) To initialize a constant
+Answer: B</li></ol><ol type="1" id="f1f53c36-1921-4060-bb15-998a9560d5b9" class="numbered-list" start="37"><li>Which of the following is an example of a global constant declaration in C?
+A) const int MAX = 100;
+B) static const float PI = 3.14;
+C) extern double VALUE;
+D) #define SIZE 10
+Answer: A</li></ol><ol type="1" id="895596af-ed1c-44de-86b9-8d39678fcb53" class="numbered-list" start="38"><li>What will be the value of <code>result</code> after executing the following code?<pre id="fd2f8236-57d8-4947-a90e-6676233653e0" class="code code-wrap"><code>int num1 = 10;
+int num2 = 3;
+int result = num1 % num2;</code></pre><p id="356e7348-7c08-42b7-8b13-ecc67cf47c32" class="">A) 1
+B) 2
+C) 3
+D) 0</p><p id="09377045-7de0-4c25-b916-b172183c8c8c" class="">Answer: A</p></li></ol><ol type="1" id="5ef704c9-d2a0-4b54-9660-c660a9d04d7c" class="numbered-list" start="39"><li>What will be the value of <code>result</code> after executing the following code?<pre id="c144eae6-f3bc-40e8-8c25-defa48e096c6" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = num1 / num2;</code></pre><p id="14b49cde-7a17-4794-ac7e-e73050f15754" class="">A) 1
+B) 1.67
+C) 2
+D) 0
+Answer: A</p></li></ol><ol type="1" id="62b4d903-1c01-40fd-9d2b-1610cb1081eb" class="numbered-list" start="40"><li>What will be the value of <code>result</code> after executing the following code?<pre id="73104dad-a600-4f29-882d-c6879b76b6da" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = num1 * num2 + num1 / num2;</code></pre><p id="680cd56d-1ea8-408e-a2e2-bc87f43defb4" class="">A) 17
+B) 20
+C) 16
+D) 10
+Answer: C</p></li></ol><ol type="1" id="160462b1-7874-4f45-984b-b4c0eb881a50" class="numbered-list" start="41"><li>What will be the value of <code>result</code> after executing the following code?<pre id="4db1e87a-a72a-4d63-a49f-dc2ea4b0d5f0" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = num1 - num2 * 2;</code></pre><p id="9d7b3c1d-0f3e-4093-8237-9b67e9ac886f" class="">A) 1
+B) 0
+C) 5
+D) -1
+Answer: D</p></li></ol><ol type="1" id="f85d26b4-560e-47ec-a47c-eb4768cc5f32" class="numbered-list" start="42"><li>What will be the value of <code>result</code> after executing the following code?<pre id="3f82e351-1262-46f7-b1df-cf005ae56f42" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = num1 + num2++;</code></pre><p id="50d355e3-ac7e-4dff-bb7e-75fb6e2607f0" class="">A) 7
+B) 8
+C) 9
+D) 5
+Answer: B</p></li></ol><ol type="1" id="d558b602-e047-4a2e-ba9c-5602000e9b5e" class="numbered-list" start="43"><li>What will be the value of <code>result</code> after executing the following code?<pre id="d68c74d0-5bb2-41e3-ba6c-7d74b3b45aaf" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = ++num1 - num2--;</code></pre><p id="6abc6a4a-b765-4504-85d8-aae808dd0a98" class="">A) 2
+B) 3
+C) 4
+D) 6</p><p id="d18d434d-4d88-4396-af31-04f442ffec10" class="">Answer: B</p></li></ol><ol type="1" id="a0f6d851-f073-4e9e-bb91-fa8bbeebcdb2" class="numbered-list" start="44"><li>What will be the value of <code>result</code> after executing the following code?<pre id="2c5dd8d1-3e40-4fee-a4d0-0aa6e25ac7e6" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &gt; num2) &amp;&amp; (num1 != 0);</code></pre><p id="f02c831d-4b61-4086-a9a6-b8cc1804c455" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="d2c6b7d9-89fa-4a39-aace-e79f0c6f1ed9" class="">Answer: A</p></li></ol><ol type="1" id="758b300f-5a0a-41ce-bfe8-63bfc22ab52a" class="numbered-list" start="45"><li>What will be the value of <code>result</code> after executing the following code?<pre id="6717f100-e4e1-4466-8ce3-fb47d4719f70" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &lt; num2) || (num1 != 0);</code></pre><p id="cc013119-1fde-4b40-a806-22ac7f630b09" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="482f30ee-7ac7-4c67-b365-c68ac480d3c0" class="">Answer: A</p></li></ol><ol type="1" id="de27a5e3-fc13-47a5-894a-30a1a8f3dc92" class="numbered-list" start="46"><li>What will be the value of <code>result</code> after executing the following code?<pre id="0bab8cf5-22de-4fd2-b61a-4b90532629a4" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = !(num1 &gt; num2);</code></pre><p id="4f441afa-72d5-4312-8b8c-98badd6fc31b" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="c3eba6ad-b98f-4b92-8be8-4663e9684096" class="">Answer: B</p></li></ol><ol type="1" id="93fc31a5-2293-4930-915c-3c78e21b318b" class="numbered-list" start="47"><li>What will be the value of <code>result</code> after executing the following code?<pre id="a71e58ab-b666-41e7-a2ca-8e9057d69227" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &gt;= num2) &amp;&amp; !(num1 != 0);</code></pre><p id="228cd01b-db7f-4649-81d6-bb1331dd19aa" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="6ac6cb76-da9e-4a66-a985-20d6b878ef34" class="">Answer: B</p></li></ol><ol type="1" id="d472c0b8-60be-487f-b234-819812941313" class="numbered-list" start="48"><li>What will be the value of <code>result</code> after executing the following code?<pre id="95400334-a24d-43d1-89c4-50c9a67449a7" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &lt; num2) &amp;&amp; (num1 != 0);</code></pre><p id="d960cf32-5463-4499-b788-31953635897b" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="738fd2b8-1762-4a37-a656-111b0f3663ce" class="">Answer: B</p></li></ol><ol type="1" id="f00f029f-5872-4274-9026-deb085e449ee" class="numbered-list" start="49"><li>What will be the value of <code>result</code> after executing the following code?<pre id="ad489bf7-d519-40ec-9dc2-cdc00e584464" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 != num2) || (num1 &gt; 0);</code></pre><p id="14777585-4ef0-4686-b64f-cd1967778c1a" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="667ac2b0-c976-48a3-9ea5-0ff1e6db1e76" class="">Answer: A</p></li></ol><ol type="1" id="944d2c8a-e36b-4e89-bf0f-d579f0bf9401" class="numbered-list" start="50"><li>What will be the value of <code>result</code> after executing the following code?<pre id="b73b0256-a816-4f9d-bb92-73d48896cdeb" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = !(num1 &gt;= num2) &amp;&amp; (num1 != 0);</code></pre><p id="9268fc24-82e3-47f1-a978-758ca6c9406b" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="3ba9c414-31d9-46b5-b228-7c7914da8c5b" class="">Answer: B</p></li></ol><ol type="1" id="e29032e1-3919-4616-b4a1-4f4d18f68df1" class="numbered-list" start="51"><li>What will be the value of <code>result</code> after executing the following code?<pre id="fe6f726c-803e-4f83-8664-6208049c76e3" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 == num2) || !(num1 &gt; 0);</code></pre><p id="d81d7c88-ea4d-4b1b-9f14-a71f4d7ab7dc" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error*</p><p id="076e230e-ffb0-476d-b30e-7fc75d02f6e2" class="">Answer: B</p></li></ol><ol type="1" id="222d1834-4df1-4726-8d5b-e112cd0b4ef9" class="numbered-list" start="52"><li>What will be the value of <code>result</code> after executing the following code?<pre id="45f608f2-a144-40d6-ba06-ef81b9e648fd" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &gt; num2) &amp;&amp; (num1 != 0);</code></pre><p id="55ee2e80-1fab-4fb5-aa65-8b0713cc2f0c" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="c2cadf70-565c-4714-ad70-b7382fa280a2" class="">Answer: A</p></li></ol><ol type="1" id="45018359-bbe1-444f-ab67-b4deb1f96eef" class="numbered-list" start="53"><li>What will be the value of <code>result</code> after executing the following code?<pre id="d440ac29-5fe1-47e4-97cc-d622e90da05b" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 != num2) || (num1 &gt; 0);</code></pre><p id="24c8320b-3d6d-4758-abfc-155f8883940b" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="adbc525a-4ab7-42ae-9138-683bd5fa3afa" class="">Answer: A</p></li></ol><ol type="1" id="d618b38f-7ca5-40a6-806e-caf9e3940ced" class="numbered-list" start="54"><li>What will be the value of <code>result</code> after executing the following code?<pre id="2eb700c2-47f9-4c16-acf5-a23f99e4656f" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = !(num1 &gt;= num2) &amp;&amp; (num1 != 0);</code></pre><p id="17ce25b4-83fe-4074-9c6b-e07ceb2abe9e" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="fbd3900d-083c-4d0c-b77c-792421782d1d" class="">Answer: B</p></li></ol><ol type="1" id="267c93f8-4c01-4350-a5a3-f8ae9265c818" class="numbered-list" start="55"><li>What will be the value of <code>result</code> after executing the following code?<pre id="1af85028-561f-4b77-8696-9e67959abe66" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 == num2) || !(num1 &gt; 0);</code></pre><p id="8d51bfe1-e988-49e3-8994-36404da75fd8" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="f4a53ac2-c54a-4aca-80e8-f65b6a5fd7a9" class="">Answer: B</p></li></ol><ol type="1" id="9d9ad792-b02b-4a96-b9ee-3d710e66e70a" class="numbered-list" start="56"><li>What will be the value of <code>result</code> after executing the following code?<pre id="d7a9a918-215d-403a-82ae-3cbef4e0360a" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 &lt; num2) &amp;&amp; (num1 != 0);</code></pre><p id="ad6d91e9-2192-4972-83bf-8d4f400e99b2" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="7aa6e66c-1584-4e6e-a7f4-5b34dfeea1c7" class="">Answer: B</p></li></ol><ol type="1" id="0bc42520-53dc-4b99-be40-51eb3656ba29" class="numbered-list" start="57"><li>What will be the value of <code>result</code> after executing the following code?<pre id="64ffa19f-f659-46ef-8cca-33394da81a4e" class="code code-wrap"><code>int num1 = 5;
+int num2 = 3;
+int result = (num1 != num2) || (num1 &gt; 0);</code></pre><p id="1d9961b6-567b-4eff-a297-cd1a88a3cab4" class="">A) 1
+B) 0
+C) Compiler error
+D) Runtime error</p><p id="c37d099f-22a5-4f13-928e-33cac586c5e6" class="">Answer: A</p></li></ol><p id="f303c524-6553-4632-9621-ff5ad58db0ae" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
