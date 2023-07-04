@@ -1,0 +1,782 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Reading - C Fundamentals</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="e76176d3-da92-454e-8712-e00b428e9152" class="page sans"><header><img class="page-cover-image" src="Reading%20-%20C%20Fundamentals%20e76176d3da92454e8712e00b428e9152/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Reading%20-%20C%20Fundamentals%20e76176d3da92454e8712e00b428e9152/800x800.png"/></div><h1 class="page-title">Reading - C Fundamentals</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><h3 id="53ec3f76-b7ec-4a03-92db-e202ed8d2f96" class="block-color-teal_background">Reading Comprehension</h3><h3 id="03dd24d8-9c08-4ff3-b927-b51e9e543f16" class=""><strong>Mastering the Fundamentals of C Programming: A Comprehensive Guide</strong></h3><h3 id="0e9b35ee-b155-4559-a283-666d46cca03f" class="">Introduction</h3><p id="128546c0-c599-4543-bcfb-5d9e02db22c3" class="">C programming language forms the backbone of modern software development. Understanding the basics of C is crucial for aspiring programmers and developers. In this article, we will delve into the core concepts of C programming, covering essential topics such as C syntax, variables, data types, flow control, loops, and functions. By mastering these fundamentals, you will lay a solid foundation to create efficient and robust C programs. So let&#x27;s dive in!</p><h3 id="8b60055d-dccd-47da-8cee-0be661dd5a28" class="">Understanding C Syntax</h3><p id="b4bdd5e8-86e7-4822-a6fc-9e2914711257" class="">The syntax of C programming is based on a set of rules that define how the code should be written. Precise knowledge of the syntax enables you to construct error-free programs. Here are a few key elements of C syntax:</p><ul id="04539090-774f-4994-9300-99ef316e47ea" class="bulleted-list"><li style="list-style-type:disc">Declarations: C requires explicit declaration of variables before they can be used. This helps in defining their data type and allocating appropriate memory.</li></ul><ul id="24521b11-2fcc-4eb8-ae0d-36ed9d045524" class="bulleted-list"><li style="list-style-type:disc">Statements: C programs are built using statements, which are instructions written to perform specific tasks. Statements end with a semicolon (;) to mark their completion.</li></ul><ul id="d62f5501-b62b-421c-8b8b-757b93f448f3" class="bulleted-list"><li style="list-style-type:disc">Comments: Comments provide explanatory notes within the code. They are ignored by the compiler and are useful for enhancing code readability.</li></ul><h3 id="d7d30086-b65d-475c-b94c-d322f640b96e" class="">Working with Variables and Data Types</h3><p id="02749ea9-f603-4023-975e-332641a4204a" class="">Variables serve as containers to store data in a C program. Before using a variable, it needs to be declared with its associated data type. C offers several built-in data types, including:</p><ul id="4a4ca369-9c84-44c9-a645-2b7df6fd0f5f" class="bulleted-list"><li style="list-style-type:disc">Integers: Used to represent whole numbers, integers can be signed or unsigned, and vary in size (e.g., int, short, long).</li></ul><ul id="45c4deb6-afc9-4ca9-8962-82fc26c15ed8" class="bulleted-list"><li style="list-style-type:disc">Floating-point: Ideal for handling decimal numbers, floating-point data types can store both small and large fractional values (e.g., float, double).</li></ul><ul id="25efee4b-e2d2-4e81-974e-a33f24d7c662" class="bulleted-list"><li style="list-style-type:disc">Characters: C treats characters as small integers. Char data type is used to store single characters, such as letters or symbols.</li></ul><ul id="ab64b9d1-ae0b-4c50-b887-b5faf4529f4b" class="bulleted-list"><li style="list-style-type:disc">Arrays: Arrays allow storing multiple elements of the same data type in a contiguous memory block. They provide an efficient way to manage collections of data.</li></ul><h3 id="5ed40e88-831c-49ee-9601-92d5cb554a8f" class="">Controlling Flow with Conditionals and Loops</h3><p id="d27ba1c1-540c-4b70-a33e-4846cff6f784" class="">Flow control statements help in altering the sequence of execution in a C program. Two essential flow control mechanisms are conditionals and loops:</p><ul id="3ae62a81-1b54-4089-872f-7b868ae53b91" class="bulleted-list"><li style="list-style-type:disc">Conditional statements (if, else if, else): They enable you to execute specific code blocks based on certain conditions. By evaluating expressions, you can control the program&#x27;s behavior.</li></ul><ul id="606f4615-2bee-4002-9647-29b789541e86" class="bulleted-list"><li style="list-style-type:disc">Loops (for, while, do-while): Loops are used to repeat a block of code multiple times. They are beneficial when dealing with repetitive tasks or iterating over data structures.</li></ul><h3 id="f8320b98-2c9c-4ac1-a67e-1a7121ee9024" class="">Understanding Functions in C</h3><p id="e02d363b-651a-4c22-b19d-8ce22a9e85cd" class="">Functions play a crucial role in C programming, as they allow you to break down complex problems into smaller, manageable tasks. A function is a self-contained block of code that performs a specific operation. Here are some key points about functions:</p><ul id="ba5c7cb1-be69-45ab-ac80-4bc01c534571" class="bulleted-list"><li style="list-style-type:disc">Function declaration: A function needs to be declared before it is used in the program. The declaration includes the function&#x27;s name, return type, and parameter list (if any).</li></ul><ul id="be227232-033a-41db-ba82-c517313b3523" class="bulleted-list"><li style="list-style-type:disc">Function definition: The actual implementation of a function is defined separately from its declaration. It consists of the function&#x27;s body, which contains the code to be executed.</li></ul><ul id="d78ba79d-0961-49fd-8bab-3f351fdd03a2" class="bulleted-list"><li style="list-style-type:disc">Return statement: Functions can return a value using the return statement. The return type specified in the declaration determines the type of value to be returned.</li></ul><h3 id="f4bc7889-2e38-46a1-a9a3-2f7b887e2787" class="">Conclusion</h3><p id="ede3d3c2-f13a-4f1e-9103-a74b6c627c45" class="">Throughout this course, we have delved into the core principles of C programming. By understanding the basics of C syntax, variables, data types, flow control, loops, and functions, you now possess the necessary expertise to develop reliable and effective C programs. Keep in mind that practice plays a crucial role in mastering any programming language. Therefore, endeavor to write code, explore, and broaden your comprehension. With commitment and persistent learning, you can embark on a prosperous path as a C programmer.</p><h3 id="c849691e-b1d9-4e6d-91f6-bdef8903e98f" class="block-color-teal_background">Formative Assessment</h3><ol type="1" id="9c89f807-d227-4377-a7be-3300acc36718" class="numbered-list" start="1"><li>What is the purpose of this article?
+A) To introduce the history of C programming language
+B) To provide a comprehensive guide on C programming fundamentals
+C) To discuss advanced C programming techniques
+D) To explore the future of C programming<p id="2856ba1b-afac-4217-a843-bdd2eb07dc18" class="">
+</p></li></ol><ol type="1" id="7e53a033-fba7-4b9d-be64-fddcb1504a3c" class="numbered-list" start="2"><li>What is the importance of understanding C syntax?
+A) It allows developers to create complex programs more easily
+B) It helps in writing error-free C programs
+C) It enables the use of graphical elements in C programming
+D) It simplifies the process of debugging C programs<p id="231d3958-584a-4518-9392-1632b1ee3618" class="">
+</p></li></ol><ol type="1" id="eebc8229-3777-4a50-9f0d-e81c37056a58" class="numbered-list" start="3"><li>Which punctuation marks mark the completion of statements in C programming?
+A) Period (.)
+B) Comma (,)
+C) Semicolon (;)
+D) Exclamation mark (!)<p id="45816aeb-af2c-4e3f-b946-ed2a6bf226bc" class="">
+</p></li></ol><ol type="1" id="63eabb6e-cf5a-4de7-99d7-84ae50c94a76" class="numbered-list" start="4"><li>What is the purpose of comments in C programming?
+A) To specify the input parameters of functions
+B) To provide explanatory notes within the code
+C) To define the data type of variables
+D) To execute specific code blocks based on conditions<p id="a9b7b1c1-9d06-4e24-99b9-e4a17800563a" class="">
+</p></li></ol><ol type="1" id="58e55312-73ff-4a76-a050-968420684182" class="numbered-list" start="5"><li>Which data type is ideal for handling decimal numbers in C?
+A) Integers
+B) Characters
+C) Floating-point
+D) Arrays<p id="e072a580-a8b5-4469-88fd-51f22d9d85ab" class="">
+</p></li></ol><ol type="1" id="4eba6228-ee16-48dc-b17e-907842ffe577" class="numbered-list" start="6"><li>What is the role of variables in C programming?
+A) To store multiple elements of the same data type
+B) To break down complex problems into smaller tasks
+C) To alter the sequence of execution in a program
+D) To serve as containers to store data<p id="a34a0ba0-dfc0-42f6-a835-1386deb4971f" class="">
+</p></li></ol><ol type="1" id="40b0a316-9b82-4f33-ba91-aa4bfe6959a4" class="numbered-list" start="7"><li>Which flow control mechanism is used to repeat a block of code multiple times in C?
+A) Loops
+B) Conditionals
+C) Functions
+D) Declarations<p id="0f9fa938-2a2b-451a-b0cf-60d3b791146c" class="">
+</p></li></ol><ol type="1" id="bd610991-c116-4714-a22a-df84091c5036" class="numbered-list" start="8"><li>How are conditionals useful in C programming?
+A) They help in managing collections of data
+B) They enable you to execute code based on certain conditions
+C) They store single characters, such as letters or symbols
+D) They provide instructions to perform specific tasks<p id="a01bb4c2-813f-473a-8352-51b9a1b9cae0" class="">
+</p></li></ol><ol type="1" id="7b350f5a-6bd5-49a7-a21d-790934675e2a" class="numbered-list" start="9"><li>What is the purpose of functions in C programming?
+A) To execute specific code blocks based on conditions
+B) To store multiple elements of the same data type
+C) To handle repetitive tasks or iteration over data structures
+D) To break down complex problems into smaller, manageable tasks<p id="f35d2346-3217-4da1-b18a-3708adfb1ce0" class="">
+</p></li></ol><ol type="1" id="4ffe1a0b-0106-424f-a835-f10639ce2509" class="numbered-list" start="10"><li>What should be included in a function declaration in C programming?
+A) The function&#x27;s body
+B) The return type and parameter list (if any)
+C) The sequence of execution in the program
+D) The data type and memory allocation for variables<p id="14ddb92a-66f7-4f07-b7c9-b0322dfc7abe" class="">
+</p></li></ol><ol type="1" id="638cb65c-801e-4fac-a62b-6553879cb381" class="numbered-list" start="11"><li>What is the function&#x27;s body in C programming?
+A) The function&#x27;s name, return type, and parameter list
+B) The actual implementation of the function
+C) The sequence of execution in the program
+D) The data type and memory allocation for variables<p id="61989a82-93ab-4e43-bf55-a674c79d32d3" class="">
+</p></li></ol><ol type="1" id="add0e8bf-7bdf-4d0f-bb0b-f63de6e8357b" class="numbered-list" start="12"><li>Which statement allows functions to return a value in C programming?
+A) Function declaration
+B) Function definition
+C) Return statement
+D) Conditional statement<p id="3d8d48be-61d2-4cb7-a3c6-25bfb55f9893" class="">
+</p></li></ol><ol type="1" id="3c0da315-fbb7-45e9-8094-e593efdd37d9" class="numbered-list" start="13"><li>What is the importance of practice in mastering any programming language?
+A) It allows for more efficient memory management
+B) It helps in debugging complex programs
+C) It aids in broadening comprehension and expertise
+D) It simplifies the process of data structure manipulation<p id="5454e3ed-9d7c-4e13-a2a6-16111d007d38" class="">
+</p></li></ol><ol type="1" id="f9aa53fe-0ffc-47c4-9e2e-53a6071029c3" class="numbered-list" start="14"><li>What core concepts of C programming are covered in this article?
+A) Advanced data structures and algorithms
+B) Comprehensive guide on Python programming
+C) Core principles of C syntax, variables, data types, flow control, loops, and functions
+D) Modern software development techniques<p id="8378ac90-6646-4011-a826-54575fd3ed33" class="">
+</p></li></ol><ol type="1" id="aa167b2d-553f-43a5-a36e-3edc421019be" class="numbered-list" start="15"><li>What is the significance of understanding variables and data types in C programming?
+A) It enables the use of graphical elements in C programming
+B) It simplifies the process of debugging C programs
+C) It allows developers to create complex programs more easily
+D) It helps in storing and manipulating different types of data<p id="0c9191b9-0629-4d06-bd03-d6ff0ee2e4b7" class="">
+</p></li></ol><ol type="1" id="33bb26c6-8ed9-4cdd-ade4-e544b3cee23a" class="numbered-list" start="16"><li>Which element of C syntax is used to store multiple elements of the same data type?
+A) Declarations
+B) Statements
+C) Comments
+D) Arrays<p id="2850635a-05bd-445a-b6fe-8e2da5708c84" class="">
+</p></li></ol><ol type="1" id="159b9dd3-fa3e-43d3-a714-f62db10e92e2" class="numbered-list" start="17"><li>How can flow control statements alter the sequence of execution in a C program?
+A) By providing explanatory notes within the code
+B) By evaluating expressions and controlling program behavior
+C) By breaking down complex problems into smaller tasks
+D) By allocating appropriate memory for variables<p id="5bfae7a0-bee7-4ffc-87c0-ef9b2d2ac3eb" class="">
+</p></li></ol><ol type="1" id="b1d5f104-0fc1-4709-940e-1f1c61f93864" class="numbered-list" start="18"><li>Which flow control mechanism is used to execute specific code blocks based on conditions?
+A) Loops
+B) Declarations
+C) Functions
+D) Conditionals<p id="846a5008-916f-46b5-9952-17afc32e9d09" class="">
+</p></li></ol><ol type="1" id="f6a54e10-95ed-44ff-b647-c68a6e069024" class="numbered-list" start="19"><li>What is the relationship between functions and complex problem solving in C programming?
+A) Functions help in storing and manipulating different types of data
+B) Functions provide instructions to perform specific tasks
+C) Functions enable developers to create complex programs more easily
+D) Functions allow for breaking down complex problems into smaller, manageable tasks<p id="deb68332-e8b2-442d-8e64-5a42c7e5e1f9" class="">
+</p></li></ol><ol type="1" id="9318e028-dfe2-45b7-809e-73c49916e45e" class="numbered-list" start="20"><li>How can one embark on a prosperous path as a C programmer, according to the article?
+A) By mastering advanced data structures and algorithms
+B) By focusing solely on C syntax and variables
+C) By regularly practicing coding and persistent learning
+D) By exploring the future of C programming<p id="4fccf154-a303-41ed-b5f6-7e7c890568ac" class="">
+</p></li></ol><p id="13d66640-0609-4d7f-8c0d-0822d9e107a5" class="">
+</p><p id="cbd58b07-bfd4-425c-82f5-21a7cac5ffe0" class="">
+</p><figure id="a65484b6-83b5-4b96-bcc8-73ff18262b18" class="image"><a href="Reading%20-%20C%20Fundamentals%20e76176d3da92454e8712e00b428e9152/3.png"><img style="width:1200px" src="Reading%20-%20C%20Fundamentals%20e76176d3da92454e8712e00b428e9152/3.png"/></a></figure><p id="207ec566-bcf4-4f6d-9ebe-76ac21cca0fb" class="">
+</p><p id="5753f675-6449-4739-869b-6a15684d666b" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
