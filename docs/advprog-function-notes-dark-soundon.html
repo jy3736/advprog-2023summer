@@ -1,0 +1,918 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: C Functions</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="28d47759-a363-42b3-8735-458c388fabe2" class="page sans"><header><img class="page-cover-image" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/yang01.png"/></div><h1 class="page-title">Lecture: C Functions</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><h3 id="b02889ba-a336-4c34-909c-9d1f849f318a" class="block-color-teal_background">Function Basics</h3><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="6a9e7756-5432-4e37-9c03-baba7d328104"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480.png"/></div><div style="width:100%"><mark class="highlight-orange">Introduction to functions:</mark>
+Functions are a fundamental concept in C programming that allow you to break down your code into reusable blocks. A function is a named sequence of statements that performs a specific task. It helps in organizing code, improving code readability, and promoting code reuse.<p id="5cb989c1-c946-4176-a6ba-0938bce7fc53" class=""><mark class="highlight-orange">Function declaration and definition:</mark>
+To use a function in C, you need to declare and define it. The declaration informs the compiler about the function&#x27;s name, return type, and parameters. The definition contains the actual implementation of the function.</p></div></figure><pre id="0f9ae19e-46df-4cd7-8580-329224d5ae9c" class="code code-wrap"><code>// Function declaration
+int addNumbers(int a, int b);
+
+// Function definition
+int addNumbers(int a, int b) {
+    return a + b;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="e911596d-1658-4b20-8ffa-7151426cd097"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%201.png"/></div><div style="width:100%"><mark class="highlight-orange">Anatomy of a function:</mark>
+A function consists of four main components:<ul id="9501b68e-e4d0-4f98-a524-6de948238c71" class="bulleted-list"><li style="list-style-type:disc"><code>Return type</code>: Specifies the type of value the function returns (e.g., int, float, void).</li></ul><ul id="aaf82e6a-33b4-4d8c-bc45-3b40f6798d3a" class="bulleted-list"><li style="list-style-type:disc"><code>Function name</code>: The name used to identify the function.</li></ul><ul id="f44f1d2d-456b-45dd-8175-499aef04b95e" class="bulleted-list"><li style="list-style-type:disc"><code>Parameters</code>: Inputs to the function that it can work with.</li></ul><ul id="c0500b3f-67c8-428e-b2f8-f783a6e60af5" class="bulleted-list"><li style="list-style-type:disc"><code>Body</code>: The block of code enclosed in curly braces that defines the behavior of the function.</li></ul></div></figure><pre id="21158fdc-4c50-4c1f-b47d-594f0b1c8173" class="code code-wrap"><code>int multiply(int x, int y) {
+    int result = x * y;
+    return result;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="5615beb4-ee35-4421-b7e6-2a5821074b3c"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%202.png"/></div><div style="width:100%"><mark class="highlight-orange">Function prototypes:</mark>
+A function prototype is a declaration that provides the function&#x27;s name, return type, and parameters without the function body. Prototypes are used to inform the compiler about the existence of a function before it is called.</div></figure><pre id="189d6132-20d6-4741-b94d-9eb57dcb9f4b" class="code code-wrap"><code>// Function prototype
+int multiply(int x, int y);
+
+int main() {
+    int result = multiply(3, 5);
+    printf(&quot;Result: %d\\n&quot;, result);
+    return 0;
+}
+
+// Function definition
+int multiply(int x, int y) {
+    int result = x * y;
+    return result;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="0cbd8fbe-149c-4811-a2e9-fce17e45ab64"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%203.png"/></div><div style="width:100%"><mark class="highlight-orange">Function calls and return values:</mark>
+To use a function, you call it by its name followed by parentheses. If the function has parameters, you pass the required arguments inside the parentheses. The function executes its code and may return a value using the <code>return</code> statement.</div></figure><pre id="051430f6-bcf9-4381-96e1-a72f7b5b4116" class="code code-wrap"><code>int square(int num) {
+    return num * num;
+}
+
+int main() {
+    int result = square(5);  // Function call
+    printf(&quot;Result: %d\\n&quot;, result);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="c853cfc7-372b-4619-ab77-d1856d93cef1"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%204.png"/></div><div style="width:100%"><mark class="highlight-orange">Local and global variables:</mark>
+Variables declared inside a function are called local variables. They have local scope and are only accessible within the function. Variables declared outside of any function are called global variables, and they can be accessed by any function in the program.</div></figure><pre id="f5b38f76-18b8-47a2-a307-8640158dbf99" class="code code-wrap"><code>int globalVar = 10;
+
+void updateGlobal() {
+    globalVar = 20;  // Accessing the global variable
+}
+
+int main() {
+    int localVar = 5;  // Local variable
+    printf(&quot;Local variable: %d\\n&quot;, localVar);
+    printf(&quot;Global variable: %d\\n&quot;, globalVar);
+    updateGlobal();
+    printf(&quot;Updated global variable: %d\\n&quot;, globalVar);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="3f483a01-eb17-4722-a3b0-46a07ddc783f"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%205.png"/></div><div style="width:100%"><mark class="highlight-orange">Parameter passing mechanisms (by value, by address):</mark>
+In C, function parameters can be passed by value or by address. When passed by value, a copy of the argument&#x27;s value is created inside the function. When passed by address (also known as passing by reference), the function receives the memory address of the argument, allowing modifications to the original value.</div></figure><pre id="69bfe322-1f7c-4fff-b29c-9d6042679626" class="code code-wrap"><code>void increment(int num) {
+    num++;  // Changes the local copy, not affecting the original value
+}
+
+void incrementByAddress(int* numPtr) {
+    (*numPtr)++;  // Modifies the value at the memory address
+}
+
+int main() {
+    int value = 5;
+    increment(value);
+    printf(&quot;Value after increment: %d\\n&quot;, value);  // Output: 5
+
+    incrementByAddress(&amp;value);
+    printf(&quot;Value after increment by address: %d\\n&quot;, value);  // Output: 6
+
+    return 0;
+}
+</code></pre><h3 id="03a040d9-ccf9-4b93-b178-a575c9fc94da" class="block-color-teal_background">User-Defined Functions</h3><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="5903fca2-94e0-44b7-8554-5604686dc828"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%206.png"/></div><div style="width:100%"><mark class="highlight-yellow">Creating user-defined functions:</mark>
+User-defined functions are functions created by the programmer to perform specific tasks. They provide modularity and code reuse. You can create your own functions to encapsulate a block of code that you want to reuse throughout your program.</div></figure><pre id="48f51128-3bb3-4e21-b74e-bc6e94aa6cb5" class="code code-wrap"><code>// Function declaration
+int max(int a, int b);
+
+// Function definition
+int max(int a, int b) {
+    return (a &gt; b) ? a : b;
+}
+
+int main() {
+    int result = max(3, 5);
+    printf(&quot;Max value: %d\\n&quot;, result);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="72b7ce07-bbfc-424c-aeca-98a70f2ba38b"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%207.png"/></div><div style="width:100%"><mark class="highlight-yellow">Function header and function body:</mark>
+The function header consists of the function&#x27;s return type, name, and parameters. The function body contains the statements that define the function&#x27;s behavior.</div></figure><pre id="6e158a43-2e07-4ace-a737-4f706bd2f732" class="code code-wrap"><code>int square(int num) {  // Function header
+    int result = num * num;  // Function body
+    return result;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="b118a761-32d9-4965-a8dd-fd22200020d1"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%208.png"/></div><div style="width:100%"><mark class="highlight-yellow">Return statements and return values:</mark>
+The return statement is used to exit the function and return a value (if the function has a return type). It can be used at any point in the function body. Once a return statement is encountered, the function exits immediately, and the specified value is returned.</div></figure><pre id="91dcb274-c099-4412-9696-61e5e562345f" class="code code-wrap"><code>int square(int num) {
+    return num * num;  // Return statement
+}
+
+int main() {
+    int result = square(5);
+    printf(&quot;Result: %d\\n&quot;, result);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="c15e1c97-e8d9-4ae6-a1a3-c55f4528b149"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%209.png"/></div><div style="width:100%"><mark class="highlight-yellow">Function parameters and arguments:</mark>
+Parameters are variables declared in the function header that receive values from the function call. Arguments are the actual values passed to the function when calling it.</div></figure><pre id="2826aa4f-4772-4393-8ce9-e34c68009d03" class="code code-wrap"><code>int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int x = 3, y = 5;
+    int result = add(x, y);  // Arguments passed to the function
+    printf(&quot;Result: %d\\n&quot;, result);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="6cfda02e-d38e-45fd-9a85-9619860ef7ca"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2010.png"/></div><div style="width:100%"><mark class="highlight-yellow">Pass by value vs. pass by address:</mark>
+By default, C uses pass by value, which means a copy of the argument&#x27;s value is passed to the function. If you want to modify the original value, you can pass the argument by address (using pointers).</div></figure><pre id="06fec59d-112d-4956-8224-9ac6a4bc833a" class="code code-wrap"><code>void increment(int num) {
+    num++;  // Changes the local copy, not affecting the original value
+}
+
+void incrementByAddress(int* numPtr) {
+    (*numPtr)++;  // Modifies the value at the memory address
+}
+
+int main() {
+    int value = 5;
+    increment(value);
+    printf(&quot;Value after increment: %d\\n&quot;, value);  // Output: 5
+
+    incrementByAddress(&amp;value);
+    printf(&quot;Value after increment by address: %d\\n&quot;, value);  // Output: 6
+
+    return 0;
+}
+</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="2549bb45-1e00-4ed1-a968-b65f4d712f12"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2011.png"/></div><div style="width:100%"><mark class="highlight-yellow">Recursive functions and their implementation:</mark>
+A recursive function is a function that calls itself during its execution. Recursive functions are useful for solving problems that can be divided into smaller subproblems. They consist of a base case (to terminate the recursion) and a recursive case (to call itself with a smaller input).</div></figure><pre id="49a45b1d-a657-4d7e-955f-3f4c15961dc7" class="code code-wrap"><code>int factorial(int n) {
+    if (n == 0)
+        return 1;  // Base case
+    else
+        return n * factorial(n - 1);  // Recursive case
+}
+
+int main() {
+    int result = factorial(5);
+    printf(&quot;Result: %d\\n&quot;, result);
+    return 0;
+}
+</code></pre><h3 id="744bdfa0-7505-44b1-a44c-d80223f97445" class="block-color-teal_background">Built-In Functions</h3><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="2cf7709a-c372-4a42-a685-daae5326a90c"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2012.png"/></div><div style="width:100%"><mark class="highlight-yellow">Introduction to built-in functions:</mark>
+Built-in functions, also known as library functions, are functions provided by the C standard library. They offer a wide range of functionality, such as mathematical operations, string manipulation, memory management, input/output operations, etc.<p id="9955b5c4-cfd5-4938-bc04-b3aa2935c941" class=""><mark class="highlight-yellow">Standard Library functions:</mark>
+The C standard library provides a set of functions that are available for use in any C program. These functions are specified in various standard header files, such as <code>&lt;stdio.h&gt;</code>, <code>&lt;stdlib.h&gt;</code>, <code>&lt;math.h&gt;</code>, <code>&lt;string.h&gt;</code>, etc.</p></div></figure><pre id="1b745d53-8433-4c35-a097-b75d6530788c" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+int main() {
+    printf(&quot;Hello, world!\\n&quot;);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="47999cb6-aa07-49ef-a488-18fec2415b2e"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2013.png"/></div><div style="width:100%"><mark class="highlight-yellow">Commonly used built-in functions (e.g., printf, scanf):</mark>
+The <code>printf</code> function is used to print formatted output to the console. It allows you to display text and values with various formatting options. The <code>scanf</code> function is used to read input from the user or from a file.</div></figure><pre id="e8198c02-cd47-4815-a090-92d15fa3dfdf" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int num;
+    printf(&quot;Enter a number: &quot;);
+    scanf(&quot;%d&quot;, &amp;num);
+    printf(&quot;You entered: %d\\n&quot;, num);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="e8f02da3-b037-4517-95e3-907b261ace3e"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2014.png"/></div><div style="width:100%"><mark class="highlight-yellow">Mathematical functions (e.g., sqrt, pow, abs):</mark>
+The <code>&lt;math.h&gt;</code> header provides various mathematical functions, such as <code>sqrt</code> (square root), <code>pow</code> (power), <code>abs</code> (absolute value), etc.</div></figure><pre id="1cddf61d-b69c-45a7-9ed5-2a399987998b" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main() {
+    double num = 16.0;
+    double sqrtValue = sqrt(num);
+    double powerValue = pow(num, 2);
+    int absoluteValue = abs(-5);
+
+    printf(&quot;Square root: %lf\\n&quot;, sqrtValue);
+    printf(&quot;Power: %lf\\n&quot;, powerValue);
+    printf(&quot;Absolute value: %d\\n&quot;, absoluteValue);
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="0ccd7114-2d63-4bc1-b454-d5e42173a033"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2015.png"/></div><div style="width:100%"><mark class="highlight-yellow">Character handling functions (e.g., isalpha, toupper, strlen):</mark>
+The <code>&lt;ctype.h&gt;</code> header provides functions for character handling and manipulation. For example, <code>isalpha</code> checks if a character is an alphabet, <code>toupper</code> converts a character to uppercase, <code>strlen</code> calculates the length of a string, etc.</div></figure><pre id="600c84df-7dcd-4ad3-89d4-3951f2eaaa08" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char ch = &#x27;A&#x27;;
+    if (isalpha(ch))
+        printf(&quot;%c is an alphabet.\\n&quot;, ch);
+    else
+        printf(&quot;%c is not an alphabet.\\n&quot;, ch);
+
+    char lowercase = tolower(ch);
+    printf(&quot;Lowercase: %c\\n&quot;, lowercase);
+
+    char str[] = &quot;Hello&quot;;
+    int length = strlen(str);
+    printf(&quot;Length of the string: %d\\n&quot;, length);
+
+    return 0;
+}</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="1ce4a0e6-18ef-4e5d-8828-eec88e9f22e5"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2016.png"/></div><div style="width:100%"><mark class="highlight-yellow">String manipulation functions (e.g., strcat, strcmp, strstr):</mark>
+The <code>&lt;string.h&gt;</code> header provides functions for manipulating strings. For example, <code>strcat</code> concatenates two strings, <code>strcmp</code> compares two strings, <code>strstr</code> finds the first occurrence of a substring in a string, etc.</div></figure><pre id="b506b707-cb17-4bd3-a736-10371c22ce78" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[20] = &quot;Hello&quot;;
+    char str2[] = &quot; World&quot;;
+    strcat(str1, str2);
+    printf(&quot;Concatenated string: %s\\n&quot;, str1);
+
+    char str3[] = &quot;Apple&quot;;
+    char str4[] = &quot;Banana&quot;;
+    int comparison = strcmp(str3, str4);
+    if (comparison == 0)
+        printf(&quot;Strings are equal.\\n&quot;);
+    else if (comparison &lt; 0)
+        printf(&quot;%s comes before %s.\\n&quot;, str3, str4);
+    else
+        printf(&quot;%s comes after %s.\\n&quot;, str3, str4);
+
+    char str5[] = &quot;Hello, World!&quot;;
+    char sub[] = &quot;World&quot;;
+    char* ptr = strstr(str5, sub);
+    if (ptr != NULL)
+        printf(&quot;Substring found at index: %ld\\n&quot;, ptr - str5);
+    else
+        printf(&quot;Substring not found.\\n&quot;);
+
+    return 0;
+}
+</code></pre><figure class="block-color-default callout" style="white-space:pre-wrap;display:flex" id="7550d7f9-2b98-4482-93f2-57ddd0398a2f"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/icons8-chatgpt-480%2017.png"/></div><div style="width:100%"><mark class="highlight-yellow">Memory management functions (e.g., malloc, calloc, free):</mark>
+The <code>&lt;stdlib.h&gt;</code> header provides functions for dynamic memory allocation and deallocation. For example, <code>malloc</code> is used to allocate memory, <code>calloc</code> allocates and initializes memory to zero, and <code>free</code> is used to deallocate memory.</div></figure><pre id="4b731606-8650-4a0b-b859-9b0a6f401280" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int* ptr = (int*)malloc(sizeof(int));
+    if (ptr != NULL) {
+        *ptr = 10;
+        printf(&quot;Value: %d\\n&quot;, *ptr);
+        free(ptr);
+    }
+
+    int* arr = (int*)calloc(5, sizeof(int));
+    if (arr != NULL) {
+        for (int i = 0; i &lt; 5; i++)
+            printf(&quot;Element %d: %d\\n&quot;, i, arr[i]);
+        free(arr);
+    }
+
+    return 0;
+}
+</code></pre><p id="87185617-6d12-4174-8c98-08de32041e70" class="">
+</p><figure id="4b35c0fb-0818-439a-9a9a-0284bf52a6d4" class="image"><a href="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/3.png"><img style="width:1200px" src="Lecture%20C%20Functions%2028d47759a36342b38735458c388fabe2/3.png"/></a></figure><p id="bdafd2b4-e73e-4d65-90bd-e3402661353a" class="">
+</p><p id="e42abdd4-27c6-4d7e-8fdb-4d9212030eb0" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
