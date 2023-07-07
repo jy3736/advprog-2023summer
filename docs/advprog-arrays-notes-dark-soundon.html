@@ -1,0 +1,898 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: C Arrays</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="5b312ab0-711d-4caf-9026-587cdf84b856" class="page sans"><header><img class="page-cover-image" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/yang01.png"/></div><h1 class="page-title">Lecture: C Arrays</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><p id="c76be257-df56-41c4-b235-40f918fb8906" class="">
+</p><h3 id="432fdc0e-3127-45e2-b30a-3bbd186408b4" class="block-color-teal_background">1-D Arrays</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6e17002f-8a6d-4ed0-b724-54f6b0085687"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480.png"/></div><div style="width:100%"><mark class="highlight-yellow">a. Introduction to arrays:</mark>
+Arrays are a collection of elements of the same data type that are stored in contiguous memory locations. They provide a convenient way to store and manipulate multiple values of the same type. Arrays can be one-dimensional (1-D) or multi-dimensional.<p id="3019c646-e368-440f-a2b4-9af3436cdf1c" class=""><mark class="highlight-yellow">b. Declaration and initialization of 1-D arrays:</mark>
+To declare a 1-D array, you specify the data type of the elements followed by the array name and the size of the array in square brackets. Here&#x27;s an example of declaring an array of integers:</p></div></figure><pre id="ee184be7-ce02-4e7a-897d-492c4000bf5b" class="code code-wrap"><code>int numbers[5];</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="022fb098-2a6a-4a17-924c-6bb76e7b32c5"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%201.png"/></div><div style="width:100%">To initialize the array at the time of declaration, you can use an initializer list enclosed in curly braces:</div></figure><pre id="1e24192a-e001-49f7-b240-e328bd33145d" class="code code-wrap"><code>int numbers[] = {1, 2, 3, 4, 5};</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="128481b2-a120-49b0-9c09-ae44d46d8a77"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%202.png"/></div><div style="width:100%"><mark class="highlight-yellow">c. Accessing array elements:</mark>
+Array elements can be accessed using their index. The index of the first element is 0, and the index of the last element is the size of the array minus one. You can use the square bracket notation to access individual elements.</div></figure><pre id="121d3d30-0dc5-4ab7-b93b-3fa181fea9bb" class="code code-wrap"><code>int numbers[5] = {1, 2, 3, 4, 5};
+int firstElement = numbers[0];  // Accessing the first element
+int thirdElement = numbers[2];  // Accessing the third element</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b632c448-f8c0-45e0-9132-47785e1c2cb8"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%203.png"/></div><div style="width:100%"><mark class="highlight-yellow">d. Array indexing and addressing:</mark>
+The index of an array element represents its position within the array. Array indexing starts from 0, so the first element is at index 0, the second element is at index 1, and so on. The memory address of an array element can be accessed using the address-of operator (<code>&amp;</code>) followed by the array element.</div></figure><pre id="accaaacd-cabc-442d-a156-e79560ddbe29" class="code code-wrap"><code>int numbers[5] = {1, 2, 3, 4, 5};
+int thirdElement = numbers[2];      // Accessing element using index
+int* thirdElementAddress = &amp;numbers[2];  // Accessing memory address of the third element</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="896b2134-6805-4528-a46c-a978ad328862"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%204.png"/></div><div style="width:100%">e. Manipulating array elements:
+Array elements can be modified by assigning a new value to them using the assignment operator (<code>=</code>).</div></figure><pre id="bde7370d-b718-4d87-8d5f-0c3a499f82a3" class="code code-wrap"><code>int numbers[5] = {1, 2, 3, 4, 5};
+numbers[2] = 10;  // Modifying the value of the third element</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ec71057f-8c8c-4c29-8848-f1508c67dc61"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%205.png"/></div><div style="width:100%"><mark class="highlight-yellow">f. Array traversal using loops:</mark>
+You can traverse an array using loops, such as the <code>for</code> loop, by iterating over the array indices.</div></figure><pre id="3da766c6-1421-4c6a-bfc9-e511fa301763" class="code code-wrap"><code>int numbers[5] = {1, 2, 3, 4, 5};
+for (int i = 0; i &lt; 5; i++) {
+    printf(&quot;%d &quot;, numbers[i]);  // Printing array elements
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="589f845a-ce21-4692-84c1-5aa1030a02f8"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%206.png"/></div><div style="width:100%"><mark class="highlight-yellow">g. Array as function arguments:</mark>
+Arrays can be passed as arguments to functions to operate on them or modify their elements. When passing an array to a function, you need to specify the size of the array explicitly.</div></figure><pre id="1ec76f08-9c85-4900-aba6-0958b1f8d0aa" class="code code-wrap"><code>void printArray(int arr[], int size) {
+    for (int i = 0; i &lt; size; i++) {
+        printf(&quot;%d &quot;, arr[i]);
+    }
+}
+
+int main() {
+    int numbers[5] = {1, 2, 3, 4, 5};
+    printArray(numbers, 5);  // Passing array to the function
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ea9538c3-a846-4431-985b-530e3a11c7ea"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%207.png"/></div><div style="width:100%"><mark class="highlight-yellow">h. Passing arrays to functions:</mark>
+When passing an array to a function, you can also pass the array size as a separate argument or use a sentinel value to indicate the end of the array.</div></figure><pre id="8ebb0906-9846-4cbd-b5e4-79d1846ef20c" class="code code-wrap"><code>void printArray(int arr[], int size) {
+    for (int i = 0; i &lt; size; i++) {
+        printf(&quot;%d &quot;, arr[i]);
+    }
+}
+
+int main() {
+    int numbers[5] = {1, 2, 3, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);  // Calculating array size
+    printArray(numbers, size);  // Passing array and size to the function
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3cb3418c-a9e9-48f7-a6e3-1f690e39ee45"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%208.png"/></div><div style="width:100%"><mark class="highlight-yellow">i. Returning arrays from functions:</mark>
+In C, arrays cannot be directly returned from functions. However, you can return a pointer to the array or use a structure to encapsulate the array and return the structure from the function.</div></figure><pre id="bc2ccfc1-515d-4fb1-b983-683e823b9dd6" class="code code-wrap"><code>int* createArray() {
+    int* arr = malloc(5 * sizeof(int));
+    for (int i = 0; i &lt; 5; i++) {
+        arr[i] = i + 1;
+    }
+    return arr;
+}
+
+int main() {
+    int* numbers = createArray();  // Returning dynamically allocated array
+    // Use the array
+    free(numbers);  // Freeing the dynamically allocated memory
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fb005a16-1416-4057-a040-69e78ebe0c68"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%209.png"/></div><div style="width:100%"><mark class="highlight-yellow">j. Common operations on 1-D arrays:</mark>
+Some common operations on 1-D arrays include finding the maximum or minimum element, calculating the sum or average of elements, searching for an element, and sorting the array.</div></figure><pre id="5a228dd5-11ca-458e-ae85-6372f4840276" class="code code-wrap"><code>int findMax(int arr[], int size) {
+    int max = arr[0];
+    for (int i = 1; i &lt; size; i++) {
+        if (arr[i] &gt; max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+int main() {
+    int numbers[5] = {1, 2, 3, 4, 5};
+    int max = findMax(numbers, 5);  // Finding the maximum element
+    printf(&quot;Max: %d\\n&quot;, max);
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="301a3bd0-b740-417e-9732-855c0f8d961e"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2010.png"/></div><div style="width:100%"><mark class="highlight-yellow">Example 1: Reversing an array</mark></div></figure><pre id="1f282f89-23e9-47e3-b9df-389dfe8d7095" class="code code-wrap"><code>void reverseArray(int arr[], int size) {
+    for (int i = 0; i &lt; size / 2; i++) {
+        int temp = arr[i];
+        arr[i] = arr[size - 1 - i];
+        arr[size - 1 - i] = temp;
+    }
+}
+
+int main() {
+    int numbers[5] = {1, 2, 3, 4, 5};
+    reverseArray(numbers, 5);  // Reversing the array
+    for (int i = 0; i &lt; 5; i++) {
+        printf(&quot;%d &quot;, numbers[i]);  // Printing reversed array
+    }
+    return 0;
+}</code></pre><h3 id="b34fa160-9937-4dde-a48a-2aac31beb8e6" class="block-color-teal_background">2-D Arrays</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="11e20909-3cf0-4024-b3b5-161f169f601d"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2011.png"/></div><div style="width:100%"><mark class="highlight-yellow">a. Introduction to 2-D arrays:</mark>
+A 2-D array is a collection of elements organized in a matrix-like structure. It can be visualized as a table with rows and columns. Each element in a 2-D array is identified by its row and column index.<p id="06f36115-3860-46d5-bde7-8b170c4d6013" class=""><mark class="highlight-yellow">b. Declaration and initialization of 2-D arrays:</mark>
+To declare a 2-D array, you specify the data type of the elements followed by the array name and the size of the array in two sets of square brackets representing the rows and columns.</p></div></figure><pre id="438f1a58-fabc-4c44-9efa-7cda55ab05bb" class="code code-wrap"><code>int matrix[3][4];</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="692a279e-f41d-4c24-9179-761a7cdbc787"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2012.png"/></div><div style="width:100%">To initialize the 2-D array at the time of declaration, you can use nested initializer lists enclosed in curly braces:</div></figure><pre id="2226430c-8834-41d7-aae1-c870e2e01774" class="code code-wrap"><code>int matrix[3][4] = {
+    {1, 2, 3, 4},
+    {5, 6, 7, 8},
+    {9, 10, 11, 12}
+};</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3ff60e80-3fa1-46c6-b27e-cccb683e9a83"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2013.png"/></div><div style="width:100%"><mark class="highlight-yellow">c. Accessing array elements in 2-D arrays:</mark>
+Array elements in a 2-D array can be accessed using the row and column indices. The row index specifies the row number, and the column index specifies the column number. You can use the square bracket notation to access individual elements.</div></figure><pre id="9de9aa70-fa6c-4b17-ac08-fefc9b215c4d" class="code code-wrap"><code>int matrix[3][4] = {
+    {1, 2, 3, 4},
+    {5, 6, 7, 8},
+    {9, 10, 11, 12}
+};
+int element = matrix[1][2];  // Accessing the element at row 1, column 2</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2c834d78-d8db-4bbf-8051-1a2958f2e7cd"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2014.png"/></div><div style="width:100%"><mark class="highlight-yellow">d. Row-major and column-major ordering:</mark>
+In memory, 2-D arrays can be stored in row-major order or column-major order. In row-major order, the elements of each row are stored together consecutively. In column-major order, the elements of each column are stored together consecutively.<p id="50e36416-7ba7-43b5-9544-a3c570f86d1f" class=""><mark class="highlight-yellow">e. Manipulating array elements in 2-D arrays:</mark>
+Array elements in a 2-D array can be modified by assigning new values to them using the assignment operator (<code>=</code>).</p></div></figure><pre id="55006c49-aafa-4355-90af-0f9db927f561" class="code code-wrap"><code>int matrix[3][4] = {
+    {1, 2, 3, 4},
+    {5, 6, 7, 8},
+    {9, 10, 11, 12}
+};
+matrix[1][2] = 20;  // Modifying the element at row 1, column 2</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="dbd9427e-7d62-433c-9b3c-fb339d2b4eea"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2015.png"/></div><div style="width:100%"><mark class="highlight-yellow">f. Array traversal using nested loops:</mark>
+You can traverse a 2-D array using nested loops. The outer loop iterates over the rows, and the inner loop iterates over the columns.</div></figure><pre id="06be481e-b47a-48da-bd31-53e95daa4c58" class="code code-wrap"><code>int matrix[3][4] = {
+    {1, 2, 3, 4},
+    {5, 6, 7, 8},
+    {9, 10, 11, 12}
+};
+for (int i = 0; i &lt; 3; i++) {
+    for (int j = 0; j &lt; 4; j++) {
+        printf(&quot;%d &quot;, matrix[i][j]);  // Printing array elements
+    }
+    printf(&quot;\\n&quot;);
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2ac37262-dd43-41be-b7fa-e3c1863d1eb2"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2016.png"/></div><div style="width:100%"><mark class="highlight-yellow">g. Passing 2-D arrays to functions:</mark>
+2-D arrays can be passed as arguments to functions to operate on them or modify their elements. When passing a 2-D array to a function, you need to specify the size of the array explicitly.</div></figure><pre id="b9d02307-f9eb-4a8f-a82b-81bfce8313f6" class="code code-wrap"><code>void printMatrix(int arr[][4], int rows) {
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = 0; j &lt; 4; j++) {
+            printf(&quot;%d &quot;, arr[i][j]);
+        }
+        printf(&quot;\\n&quot;);
+    }
+}
+
+int main() {
+    int matrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+    printMatrix(matrix, 3);  // Passing array and number of rows to the function
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c662e5ad-9396-4098-ab57-06c78aec813a"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2017.png"/></div><div style="width:100%"><mark class="highlight-yellow">h. Returning 2-D arrays from functions:</mark>
+In C, arrays cannot be directly returned from functions. However, you can return a pointer to the 2-D array or use a structure to encapsulate the 2-D array and return the structure from the function.</div></figure><pre id="6aeafe5d-010a-43bf-82ea-70ae3ae7f8e8" class="code code-wrap"><code>int** createMatrix(int rows, int columns) {
+    int** matrix = malloc(rows * sizeof(int*));
+    for (int i = 0; i &lt; rows; i++) {
+        matrix[i] = malloc(columns * sizeof(int));
+        for (int j = 0; j &lt; columns; j++) {
+            matrix[i][j] = i * columns + j + 1;
+        }
+    }
+    return matrix;
+}
+
+int main() {
+    int** matrix = createMatrix(3, 4);  // Returning dynamically allocated 2-D array
+    // Use the matrix
+    for (int i = 0; i &lt; 3; i++) {
+        free(matrix[i]);  // Freeing memory for each row
+    }
+    free(matrix);  // Freeing memory for the matrix
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1ac56c73-e9cb-4768-8140-f78841b42b91"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2018.png"/></div><div style="width:100%"><mark class="highlight-yellow">i. Common operations on 2-D arrays:</mark>
+Some common operations on 2-D arrays include finding the maximum or minimum element, calculating the sum or average of elements, searching for an element, and transposing the matrix.</div></figure><pre id="db0813ae-a521-43a6-88ad-570a498ea9b4" class="code code-wrap"><code>int findMax(int matrix[][4], int rows) {
+    int max = matrix[0][0];
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = 0; j &lt; 4; j++) {
+            if (matrix[i][j] &gt; max) {
+                max = matrix[i][j];
+            }
+        }
+    }
+    return max;
+}
+
+int main() {
+    int matrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+    int max = findMax(matrix, 3);  // Finding the maximum element
+    printf(&quot;Max: %d\\n&quot;, max);
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="112feb49-540b-46e2-9e4e-8be4af4110b2"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2019.png"/></div><div style="width:100%"><mark class="highlight-yellow">Example 1: Sum of elements in a 2-D array</mark></div></figure><pre id="63f4b248-3da8-4b0a-8b29-9a1e4f57f888" class="code code-wrap"><code>int calculateSum(int matrix[][3], int rows, int columns) {
+    int sum = 0;
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = 0; j &lt; columns; j++) {
+            sum += matrix[i][j];
+        }
+    }
+    return sum;
+}
+
+int main() {
+    int matrix[3][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+    int sum = calculateSum(matrix, 3, 3);  // Calculating the sum of elements
+    printf(&quot;Sum: %d\\n&quot;, sum);
+    return 0;
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="f7e4b3ae-2c8b-418d-9139-d94200e76d2d"><div style="font-size:1.5em"><img class="icon" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/icons8-chatgpt-480%2020.png"/></div><div style="width:100%"><mark class="highlight-yellow">Example 2: Transposing a matrix</mark></div></figure><pre id="4578f4c4-aadf-42a9-bafb-15a672931bf5" class="code code-wrap"><code>void transposeMatrix(int matrix[][3], int rows, int columns) {
+    int temp;
+    for (int i = 0; i &lt; rows; i++) {
+        for (int j = i + 1; j &lt; columns; j++) {
+            temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+}
+
+int main() {
+    int matrix[3][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+    transposeMatrix(matrix, 3, 3);  // Transposing the matrix
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; 3; j++) {
+            printf(&quot;%d &quot;, matrix[i][j]);  // Printing transposed matrix
+        }
+        printf(&quot;\\n&quot;);
+    }
+    return 0;
+}</code></pre><p id="a0dfb3dc-3b8c-4566-8274-b39e67e78456" class="">
+</p><figure id="6a3bdb0a-875e-4559-87a7-751594675a57" class="image"><a href="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/3.png"><img style="width:1200px" src="Lecture%20C%20Arrays%205b312ab0711d4caf9026587cdf84b856/3.png"/></a></figure><p id="a188b6ec-cc17-4de0-9980-0f765d8ea1e1" class="">
+</p><p id="afb2d8cc-daf2-41dc-9b58-2920ea52509d" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
