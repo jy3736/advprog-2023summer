@@ -1,0 +1,729 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: Pointers</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="18160a36-b874-423a-8c8e-5287779bd7a0" class="page sans"><header><img class="page-cover-image" src="Lecture%20Pointers%2018160a36b874423a8c8e5287779bd7a0/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20Pointers%2018160a36b874423a8c8e5287779bd7a0/yang01.png"/></div><h1 class="page-title">Lecture: Pointers</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><p id="7133182f-35b0-4a1b-9eef-79f7cb34a889" class="">In C, a pointer is a variable that stores the memory address of another variable. Pointers allow you to directly manipulate memory, access data indirectly, and dynamically allocate memory.</p><p id="bd20e323-3f9d-4ff0-98e5-dc60ed2b75b0" class="">To declare a pointer variable, you use the asterisk (*) symbol before the variable name. Here&#x27;s an example:</p><pre id="5dd737d2-d38d-4ff0-85f5-876de5b50114" class="code code-wrap"><code>int main() {
+    int num = 42;
+    int *ptr;  // Pointer declaration
+
+    ptr = &amp;num;  // Assigning the address of &#x27;num&#x27; to &#x27;ptr&#x27;
+
+    return 0;
+}</code></pre><p id="b969bdfe-4150-479c-92f4-7706be24dd07" class="">In the code above, we declare an integer variable <code>num</code> and a pointer variable <code>ptr</code>. We then assign the memory address of <code>num</code> to <code>ptr</code> using the address-of operator (<code>&amp;</code>). Now <code>ptr</code> &quot;points&quot; to the memory location where <code>num</code> is stored.</p><p id="a85f3be6-db6d-48af-866d-a001b65b58b7" class="">To access the value stored at the memory location pointed to by a pointer, we use the dereference operator (<code>*</code>). Here&#x27;s an example:</p><pre id="884e64fe-d328-443b-a547-f7e18e2e799e" class="code code-wrap"><code>int main() {
+    int num = 42;
+    int *ptr;
+
+    ptr = &amp;num;
+
+    printf(&quot;Value of num: %d\\n&quot;, *ptr);  // Dereferencing &#x27;ptr&#x27; to access the value
+
+    return 0;
+}</code></pre><p id="7cc3783a-997e-476a-bcb3-0dfdbfda5c6a" class="">In the code above, we use the <code>*ptr</code> expression to dereference the pointer and retrieve the value stored in the memory location pointed to by <code>ptr</code>. The output will be <code>Value of num: 42</code>.</p><p id="d5f13b01-3fdc-4772-9fc3-c814fcffcc7e" class="">Pointers are often used in C for various purposes, such as dynamic memory allocation, passing variables by reference to functions, and creating complex data structures like linked lists and trees. They provide a way to directly manipulate memory, which can be powerful but also requires careful handling to avoid errors like accessing invalid memory addresses or causing memory leaks.</p><h3 id="66c318c8-7062-4f64-80ec-b695ac513ee9" class="block-color-teal_background">Introduction to Pointers</h3><p id="658f3ba6-c226-4774-992c-d7b9fcbdcb8d" class="">A. Definition and Purpose</p><pre id="af8cfba7-ef89-4de7-ab8b-0e1d9b0ad5ef" class="code code-wrap"><code>int* ptr; // declaring a pointer variable of type int</code></pre><p id="8214615e-3d37-41af-bdd5-d563ee149461" class="">B. Memory and Address</p><pre id="df0b62a9-9089-41b9-829d-1de7798f6fc6" class="code code-wrap"><code>int num = 10;
+int* ptr = &amp;num; // storing the address of num in ptr</code></pre><p id="f734a6d9-1f08-45d1-936d-b37f31960027" class="">C. Pointer Variables</p><pre id="b95440c1-df64-40da-a114-2f2f42263bf2" class="code code-wrap"><code>int* ptr; // declaring a pointer variable
+*ptr = 20; // assigning a value to the memory location pointed by ptr</code></pre><p id="7251b7a3-00cb-4caa-8a90-edf493fb5a47" class="">D. Declaring and Initializing Pointers</p><pre id="5c0b8b27-b4e4-4db0-86f6-9bfe587a5ba1" class="code code-wrap"><code>int* ptr = NULL; // initializing a pointer variable to NULL</code></pre><p id="b570f51d-aae9-408b-9549-1f892708220a" class="">E. Dereferencing Pointers</p><pre id="70d17c69-ed70-4479-a99c-9908af8a41cf" class="code code-wrap"><code>int num = 10;
+int* ptr = &amp;num;
+printf(&quot;%d&quot;, *ptr); // dereferencing the pointer to access the value stored at the memory location it points to</code></pre><h3 id="88111b17-c9db-4096-83dd-31f38e81882c" class="block-color-teal_background">Pointer Arithmetic</h3><p id="7f0457f3-2935-44f7-978b-4704b63ed42b" class="">A. Increment and Decrement</p><pre id="ed9d841f-dcbd-4725-a904-5f42cecd6a31" class="code code-wrap"><code>int* ptr = someArray; // assuming someArray is an array of integers
+ptr++; // incrementing the pointer to point to the next element in the array</code></pre><p id="d2522697-36a7-4927-8eb1-840bf0cc9b5d" class="">B. Pointer Arithmetic Examples</p><pre id="8a8fb529-8eef-490a-b092-41860b1aa833" class="code code-wrap"><code>int* ptr = someArray;
+int value = *(ptr + 2); // accessing the value at the third element in the array</code></pre><p id="e15bce81-a62a-4b86-9003-7b1bfd8a6e10" class="">C. Array and Pointer Relationship</p><pre id="01c87f24-4671-4c6d-80ac-35978a9e4326" class="code code-wrap"><code>int array[5] = {1, 2, 3, 4, 5};
+int* ptr = array; // assigning the address of the first element of the array to ptr</code></pre><h3 id="f7d54336-e795-4c9a-91f0-1c7ba92a8a40" class="block-color-teal_background">Dynamic Memory Allocation</h3><p id="14734dc6-c89f-45f7-8c98-bfbe73dc5600" class="">A. malloc() Function</p><pre id="229d87ce-d581-4688-9227-ff8705be3bf7" class="code code-wrap"><code>int* ptr = (int*)malloc(sizeof(int)); // dynamically allocating memory for a single integer</code></pre><p id="94724fbe-bb9b-4aa8-8298-3227a6b677ad" class="">B. calloc() Function</p><pre id="8e02dd99-5261-4ead-968a-3fd232fdc5bd" class="code code-wrap"><code>int* ptr = (int*)calloc(5, sizeof(int)); // dynamically allocating memory for an array of five integers</code></pre><p id="ce046598-0ef3-45ff-8be2-44a1209ed217" class="">C. realloc() Function</p><pre id="9590e7ad-3628-4154-8978-2face51e1a7f" class="code code-wrap"><code>ptr = (int*)realloc(ptr, 10 * sizeof(int)); // reallocating memory for a larger array size</code></pre><p id="cf717e62-38d4-48ef-b279-b633c5f65970" class="">D. free() Function</p><pre id="81a1c4f9-2b25-40fd-848e-ed644d14dce2" class="code code-wrap"><code>free(ptr); // releasing the dynamically allocated memory</code></pre><h3 id="a3754a7d-5e2d-4be0-b08d-86c28b1436db" class="block-color-teal_background">Pointers and Functions</h3><p id="a14ca639-7d52-4ac7-a933-eb262e01d223" class="">A. Passing Pointers as Function Arguments</p><pre id="9ef53ac9-17a8-4b15-958f-64333100ce04" class="code code-wrap"><code>void changeValue(int* ptr) {
+    *ptr = 20; // modifying the value at the memory location pointed by ptr
+}</code></pre><p id="54cc49e0-8b5e-422a-954a-792312ed490d" class="">B. Modifying Values through Pointers</p><pre id="7bc994fb-5031-48b7-8c18-ad96a2e91217" class="code code-wrap"><code>int num = 10;
+changeValue(&amp;num); // passing the address of num to the function</code></pre><p id="5e4287dc-13bc-4f6d-bb3c-a08b99eb82b3" class="">C. Returning Pointers from Functions</p><pre id="166cd264-4f70-4285-98b5-245b2d758400" class="code code-wrap"><code>int* createArray(int size) {
+    int* arr = (int*)malloc(size * sizeof(int));
+    // populate the array
+    return arr; // returning the pointer to the dynamically allocated array
+}</code></pre><h3 id="e7e06462-d56f-4410-b11f-88e28d189b7b" class="block-color-teal_background">Pointers and Arrays</h3><p id="c39cccd5-17b6-44d6-a678-2c25e12fda5e" class="">A. Array Name as a Pointer</p><pre id="b5673766-f99e-4085-8d98-4ed6674cf8c3" class="code code-wrap"><code>int array[5] = {1, 2, 3, 4, 5};
+int* ptr = array; // assigning the address of the first element of the array to ptr</code></pre><p id="0701118c-c707-4c84-9a8d-be06ca21ad02" class="">B. Pointer Arithmetic with Arrays</p><pre id="a43c550d-96d1-49a3-aa0f-fede4389d923" class="code code-wrap"><code>int array[5] = {1, 2, 3, 4, 5};
+int* ptr = array;
+int value = *(ptr + 2); // accessing the value at the third element in the array</code></pre><p id="388a551b-2e3e-42a0-a8ba-6c6a30d55be9" class="">C. Array of Pointers</p><pre id="d9cb5a01-87ce-4f64-b6cc-049e641fcfa8" class="code code-wrap"><code>int num1 = 10, num2 = 20, num3 = 30;
+int* ptrArray[3] = {&amp;num1, &amp;num2, &amp;num3}; // creating an array of pointers to integers</code></pre><h3 id="68fa406a-80b7-4689-869d-18fddc63143b" class="block-color-teal_background">Pointers to Pointers</h3><p id="08d3ab78-19b0-4c54-9934-31660d04fa01" class="">A. Double Indirection</p><pre id="497fea36-6b2d-4717-bdb2-1a6b7dbba32f" class="code code-wrap"><code>int num = 10;
+int* ptr = &amp;num;
+int** ptrToPtr = &amp;ptr; // pointer to a pointer</code></pre><p id="b0beb7c4-45cc-44b7-8d1d-d6bf30909580" class="">B. Syntax and Usage</p><pre id="565f1212-9fc4-4328-b7d2-1ed6411af8cd" class="code code-wrap"><code>int num = 10;
+int* ptr = &amp;num;
+int** ptrToPtr = &amp;ptr;
+int value = **ptrToPtr; // accessing the value using double indirection</code></pre><p id="739d521f-10e5-470c-9a57-0e24585b72d0" class="">C. Pointer to Pointer Arithmetic</p><pre id="23e173d4-16de-4885-9bdf-9f44ca07b25b" class="code code-wrap"><code>int num = 10;
+int* ptr = &amp;num;
+int** ptrToPtr = &amp;ptr;
+(*ptrToPtr)++; // incrementing the pointer to the next memory location</code></pre><h3 id="ddc6a67b-2dba-4ee1-ab29-457fa8591dea" class="block-color-teal_background">Pointers and Strings</h3><p id="2ddd0e57-8e52-4f3b-998f-a29b248b697d" class="">A. Strings as Arrays of Characters</p><pre id="36cb39d9-ada6-408d-9bb7-26ca11353d14" class="code code-wrap"><code>char str[] = &quot;Hello&quot;;
+char* ptr = str; // assigning the address of the first character of the string to ptr</code></pre><p id="14bd626f-fa9c-4733-8a40-10e53db6b047" class="">B. Pointers and String Manipulation</p><pre id="31686a23-7072-4d50-a38f-842c70a4cfa5" class="code code-wrap"><code>char str[] = &quot;Hello&quot;;
+char* ptr = str;
+printf(&quot;%c&quot;, *ptr); // accessing and printing the first character of the string</code></pre><p id="184fe6b7-f57d-455a-8e19-2aa4b0593a08" class="">C. String Functions and Pointers</p><pre id="1ce23a16-dbb0-4efb-b36e-dc151d450bb8" class="code code-wrap"><code>char str1[] = &quot;Hello&quot;;
+char str2[] = &quot;World&quot;;
+char* result = strcat(str1, str2); // concatenating two strings using strcat() function</code></pre><p id="9881416e-84f2-47dd-b854-a711748ec454" class="">
+</p><p id="39e803f9-5410-446c-9c93-afb67bcf1e0f" class="">
+</p><figure id="376bb8b2-431f-46fb-a823-b44300d89ed1" class="image"><a href="Lecture%20Pointers%2018160a36b874423a8c8e5287779bd7a0/3.png"><img style="width:1200px" src="Lecture%20Pointers%2018160a36b874423a8c8e5287779bd7a0/3.png"/></a></figure><p id="5e056ba7-3e62-4229-9b6c-e7fe32dd16ad" class="">
+</p><p id="67539ca0-a8f0-4830-be92-dbc84c0399cb" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
