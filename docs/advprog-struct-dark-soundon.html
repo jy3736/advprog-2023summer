@@ -1,0 +1,790 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: C Structures</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="bc0910b1-4cee-4c1e-be4d-a23ee2ba2d96" class="page sans"><header><img class="page-cover-image" src="Lecture%20C%20Structures%20bc0910b14cee4c1ebe4da23ee2ba2d96/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20C%20Structures%20bc0910b14cee4c1ebe4da23ee2ba2d96/yang01.png"/></div><h1 class="page-title">Lecture: C Structures</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><p id="ed1560bd-ac32-4234-9c27-d634e5a6f80b" class="">
+</p><p id="e9ae60e3-5a53-4580-b1a5-b3c6c653e97f" class="">In C programming, a struct (short for structure) is a user-defined data type that allows you to combine different data types into a single entity. It allows you to create a custom data structure that can hold multiple related variables under a single name.</p><p id="b22999c7-1374-465e-9443-4ea3136a6d1b" class="">Here&#x27;s an example of how you can define and use a struct in C:</p><pre id="abc2b56d-2033-419b-97c8-1a23ec998a37" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+// Define a struct named &quot;Person&quot;
+struct Person {
+    char name[50];
+    int age;
+    float height;
+};
+
+int main() {
+    // Declare a variable of type &quot;Person&quot;
+    struct Person person1;
+
+    // Access and assign values to the struct members
+    strcpy(person1.name, &quot;John Doe&quot;);
+    person1.age = 25;
+    person1.height = 1.75;
+
+    // Access and print the struct members
+    printf(&quot;Name: %s\\n&quot;, person1.name);
+    printf(&quot;Age: %d\\n&quot;, person1.age);
+    printf(&quot;Height: %.2f\\n&quot;, person1.height);
+
+    return 0;
+}</code></pre><p id="a0f50a73-7b7b-46fb-8dc7-52019977c9c8" class="">In this code, we define a struct named &quot;Person&quot; that contains three members: <code>name</code>, <code>age</code>, and <code>height</code>. Inside the <code>main()</code> function, we declare a variable <code>person1</code> of type <code>Person</code> and access its members using the dot (<code>.</code>) operator.</p><p id="281f2104-6aea-45ce-8d31-c985371b3f6b" class="">We assign values to the struct members using the <code>strcpy()</code> function for the <code>name</code> member, and direct assignment for the <code>age</code> and <code>height</code> members. Finally, we print the values of the struct members using <code>printf()</code>.</p><p id="d16a19dc-e7ac-4fd2-969a-7a756cd99012" class="">Structs are useful when you want to group related variables together and pass them as a single entity to functions, or when you want to define custom data types for organizing your data more effectively.</p><h3 id="1466b692-5fa9-4617-ac75-d1714ace2f64" class="block-color-teal_background">Introduction to C Struct</h3><p id="670e4911-028d-4052-a326-0bda41d93e3d" class="">A. Definition of a Struct:
+A struct in C is a composite data type that allows you to group together different variables with different data types into a single unit. It provides a way to define your own data structure with multiple elements.</p><pre id="a0a65dad-e51b-4f40-a650-acacbf26429c" class="code code-wrap"><code>// Example of defining a struct
+struct Person {
+    char name[50];
+    int age;
+    float height;
+};</code></pre><p id="04389a0d-092d-42f0-b34b-6e30d9354061" class="">B. Purpose of Structs:
+Structs allow you to create complex data structures that can hold multiple related pieces of data. They are useful for organizing and manipulating data in a structured manner.</p><p id="645994a1-b6df-4121-a386-e7ac5235d06d" class="">C. Syntax for Declaring a Struct:
+To declare a struct variable, you use the struct keyword followed by the struct tag (name of the struct) and the variable name.</p><pre id="7396ffc0-f492-4a1d-9d7d-139a48e26754" class="code code-wrap"><code>// Example of declaring a struct variable
+struct Person person1;</code></pre><h3 id="ca117457-64b4-4c00-ad58-60ae6abc2001" class="block-color-teal_background">Creating and Accessing Struct Members</h3><p id="0a5a661a-8c39-43f1-9ed4-03be44f5faa7" class="">A. Declaring Struct Members:
+Inside a struct, you can declare members, which are variables of different data types that define the structure&#x27;s elements.</p><pre id="9defe16b-73a6-4c8c-8aae-cf1351241402" class="code code-wrap"><code>// Example of declaring struct members
+struct Person {
+    char name[50];
+    int age;
+    float height;
+};</code></pre><p id="c46d82a4-c374-4a4b-89ee-8db01afa9d1a" class="">B. Initializing Structs:
+Struct variables can be initialized using curly braces {} with values provided for each member in the order they were declared.</p><pre id="7686cbe0-ff39-489a-8512-97b43ac63fdd" class="code code-wrap"><code>// Example of initializing a struct
+struct Person person1 = {&quot;John Doe&quot;, 25, 175.5};</code></pre><p id="6ef61621-5027-41c9-9810-b71bf72b58fd" class="">C. Accessing Struct Members:
+To access the members of a struct variable, you use the dot (.) operator followed by the member name.</p><pre id="161f4cfd-90fe-4f43-8ebc-1907f9a66d40" class="code code-wrap"><code>// Example of accessing struct members
+printf(&quot;Name: %s\\n&quot;, person1.name);
+printf(&quot;Age: %d\\n&quot;, person1.age);
+printf(&quot;Height: %.2f\\n&quot;, person1.height);</code></pre><h3 id="64b90bce-8319-49e9-a838-12ef9c97c48e" class="block-color-teal_background">Nested Structs and Struct Arrays</h3><p id="2d35708a-f767-49f2-b43d-c6979d95d3a5" class="">A. Creating Nested Structs:
+Structs can be nested within other structs, allowing you to create hierarchical data structures.</p><pre id="f16e296c-92ec-478e-a1e0-1b03761535ed" class="code code-wrap"><code>// Example of creating nested structs
+struct Address {
+    char street[50];
+    char city[50];
+};
+
+struct Person {
+    char name[50];
+    int age;
+    struct Address address;
+};</code></pre><p id="ce34beeb-da06-4d12-a25e-05e6fedc414c" class="">B. Accessing Members of Nested Structs:
+To access members of a nested struct, you use the dot (.) operator multiple times.</p><pre id="00cac71d-6b55-40eb-9947-41307ca1bc77" class="code code-wrap"><code>// Example of accessing members of nested structs
+printf(&quot;Street: %s\\n&quot;, person1.address.street);
+printf(&quot;City: %s\\n&quot;, person1.address.city);</code></pre><p id="c8fb882f-8201-4f1c-92fd-3a222554f0ad" class="">C. Declaring Struct Arrays:
+You can declare arrays of structs to store multiple instances of the same struct type.</p><pre id="3547d59f-13b6-4a12-b80c-6da5732c704b" class="code code-wrap"><code>// Example of declaring a struct array
+struct Person people[3];</code></pre><p id="4ac6671a-6b16-417f-8ab8-2eb09c3f579b" class="">D. Accessing Struct Arrays:
+You can access individual elements of a struct array using the array index notation.</p><pre id="c1b3271c-1f60-4de8-8f4f-458450e2b951" class="code code-wrap"><code>// Example of accessing struct array elements
+printf(&quot;Name of person at index 0: %s\\n&quot;, people[0].name);</code></pre><h3 id="7e37c59d-b093-4a0d-b61c-f026fac584aa" class="block-color-teal_background">Passing Structs to Functions</h3><p id="e69cc3ae-aa39-41e8-90fa-d98bd44b3dbd" class="">A. Passing Structs by Value:
+By default, when you pass a struct to a function, a copy of the struct is made, and any modifications made inside the function do not affect the original struct.</p><pre id="2d255b53-7787-4aef-b2ce-ef1f8165a99c" class="code code-wrap"><code>// Example of passing a struct by value
+void printPerson(struct Person p) {
+    printf(&quot;Name: %s\\n&quot;, p.name);
+    printf(&quot;Age: %d\\n&quot;, p.age);
+    printf(&quot;Height: %.2f\\n&quot;, p.height);
+}
+
+// Usage
+printPerson(person1);</code></pre><p id="f557918f-4cd7-4167-beda-9629f1edb927" class="">B. Passing Structs by Reference (Pointers):
+To modify the original struct inside a function, you can pass a pointer to the struct, allowing direct access and modification.</p><pre id="40ded1b9-beaa-47c2-a859-a0772be2e63c" class="code code-wrap"><code>// Example of passing a struct by reference
+void modifyPerson(struct Person* p) {
+    p-&gt;age = 30;
+}
+
+// Usage
+modifyPerson(&amp;person1);</code></pre><h3 id="ba4b2900-2f3c-4bce-999c-a8c78f770625" class="block-color-teal_background">Manipulating Structs</h3><p id="bca84257-1f06-4994-8580-9938859f0351" class="">A. Modifying Struct Members:
+You can modify struct members directly by assigning new values using the assignment operator (=).</p><pre id="950e009b-e525-42fd-9253-606347320c47" class="code code-wrap"><code>// Example of modifying struct members
+person1.age = 30;</code></pre><p id="8302f79a-b113-4469-a688-ed18e3accac0" class="">B. Assigning Structs:
+You can assign one struct variable to another of the same type, copying the values of all members.</p><pre id="9b639646-edbd-4a09-b226-a4da5b744183" class="code code-wrap"><code>// Example of assigning structs
+struct Person person2;
+person2 = person1;</code></pre><p id="aa752196-9e4c-49b1-954b-4c129e1ff542" class="">C. Comparing Structs:
+Structs can be compared using the equality operator (==), which compares each member of the structs for equality.</p><pre id="44857935-e6f6-4f2d-9a81-7828dc8a09aa" class="code code-wrap"><code>// Example of comparing structs
+if (person1.age == person2.age) {
+    printf(&quot;The ages are equal.\\n&quot;);
+}</code></pre><h3 id="3834376b-99f3-43e7-a3a8-12f0859fbe00" class="block-color-teal_background">Using Typedef with Structs</h3><p id="b8b4ce2a-17ea-43f1-8e9f-a48c2f35d7b0" class="">A. Defining Typedefs for Structs:
+Typedef allows you to define an alternative name (alias) for a struct type, making it easier to declare variables of that type.</p><pre id="62ba3549-6194-47e2-a590-8c477709585b" class="code code-wrap"><code>// Example of defining a typedef for a struct
+typedef struct {
+    char name[50];
+    int age;
+    float height;
+} Person;</code></pre><p id="9859e619-21a3-4bdf-96bc-1792738c3367" class="">B. Benefits of Typedefs for Structs:
+Typedefs simplify the declaration of struct variables by eliminating the need to use the struct keyword each time.</p><pre id="aa8be984-a5d4-4adc-bb02-47f2c1c384ab" class="code code-wrap"><code>// Example of using a typedef for a struct
+Person person1;
+person1.age = 25;</code></pre><h3 id="0310f977-3d5d-4573-b3ae-8c087fb2afde" class="block-color-teal_background">Common Applications of Structs</h3><p id="f86e6173-7c3c-4aed-96fb-f38319dfce8e" class="">A. Creating Data Structures:
+Structs are commonly used to create data structures such as linked lists, stacks, queues, and trees.</p><pre id="c3b91733-7cdf-433b-8801-bae20d7c95a6" class="code code-wrap"><code>// Example of a linked list node
+struct Node {
+    int data;
+    struct Node* next;
+};</code></pre><p id="11435806-1eb5-452b-93fc-259ada7c0c33" class="">B. Representing Real-World Objects:
+Structs can be used to represent real-world objects with multiple attributes, such as employees, students, or cars.</p><pre id="87424baf-8e33-4f2f-9e40-50851d41ca3c" class="code code-wrap"><code>// Example of representing an employee
+struct Employee {
+    char name[50];
+    int age;
+    float salary;
+};</code></pre><p id="7c63bb87-eaaf-400c-9992-5a1a772db0f4" class="">
+</p><figure id="ffc58f64-28e3-40b1-a9ed-1f2fbaa0759a" class="image"><a href="Lecture%20C%20Structures%20bc0910b14cee4c1ebe4da23ee2ba2d96/3.png"><img style="width:1200px" src="Lecture%20C%20Structures%20bc0910b14cee4c1ebe4da23ee2ba2d96/3.png"/></a></figure><p id="e1b15240-0e0d-483c-bfc0-ff9c292908f1" class="">
+</p><p id="78241ade-eba5-48c9-b943-c09f4e61249e" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
