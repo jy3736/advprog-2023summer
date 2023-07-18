@@ -674,66 +674,72 @@ blockquote {
 }
 	
 </style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="5818a73d-e012-4c0e-9e1f-5964090f51a0" class="page sans"><header><img class="page-cover-image" src="Lecture%20C%20Matrix%20(2D%20arrays)%20Manipulations%205818a73de0124c0e9e1f5964090f51a0/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20C%20Matrix%20(2D%20arrays)%20Manipulations%205818a73de0124c0e9e1f5964090f51a0/yang01.png"/></div><h1 class="page-title">Lecture: C Matrix (2D arrays) Manipulations</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><p id="26dccdfa-8f85-4c82-884b-e0d9e689db7c" class="">
-</p><h3 id="ea34e56d-bd56-42f7-ab5f-b816b187d4df" class="block-color-teal_background"><strong>1. Matrix declarations</strong></h3><p id="b9057f04-d748-42e5-837f-de090058c297" class="">A 2D array in C can be declared as follows:</p><pre id="83c3d8cc-6868-4d03-a31a-f28b79536c4f" class="code code-wrap"><code>int matrix[ROWS][COLUMNS];</code></pre><p id="fa592874-aba6-4e4f-861a-a7ce47bde2e4" class="">where <code>ROWS</code> and <code>COLUMNS</code> are the number of rows and columns in the matrix.</p><h3 id="dd52029d-b256-4644-b873-b46598870f92" class="block-color-teal_background"><strong>2. Filling matrix with sequential numbers</strong></h3><p id="2e2f411d-9431-4023-9853-e2b73288d97c" class="">A 2D array can be filled with sequential numbers using the following code:</p><pre id="e766be53-0745-4783-ae33-d465baa7ab0f" class="code code-wrap"><code>for (int i = 0; i &lt; ROWS; i++) {
-  for (int j = 0; j &lt; COLUMNS; j++) {
-    matrix[i][j] = i * COLUMNS + j;
-  }
-}</code></pre><h3 id="eb712dc2-db51-4630-b4c5-41075277c926" class="block-color-teal_background"><strong>3. Initialize a matrix with specific value</strong></h3><p id="f02141f2-57ac-4c0d-a797-a83031a6f085" class="">A 2D array can be initialized with a specific value using the following code:</p><pre id="60686119-078f-4b16-b615-d36a9ee9a307" class="code code-wrap"><code>int value = 10;
+</p><h3 id="ea34e56d-bd56-42f7-ab5f-b816b187d4df" class="block-color-teal_background"><strong>1. Matrix Declarations</strong></h3><pre id="83c3d8cc-6868-4d03-a31a-f28b79536c4f" class="code code-wrap"><code>#include &lt;stdio.h&gt;
 
-for (int i = 0; i &lt; ROWS; i++) {
-  for (int j = 0; j &lt; COLUMNS; j++) {
-    matrix[i][j] = value;
-  }
-}</code></pre><h3 id="7eef643c-b71b-4a97-b4d9-ae6c24d8307a" class="block-color-teal_background"><strong>4. Copy matrices</strong></h3><p id="197f424a-206c-45b5-8515-d153ca3c66c0" class="">A 2D array can be copied to another 2D array using the following code:</p><pre id="b760dd59-0c14-4112-8795-b78b52a1a68e" class="code code-wrap"><code>int source_matrix[ROWS][COLUMNS];
-int destination_matrix[ROWS][COLUMNS];
+const int R = 10;
+const int C = 10;
 
-for (int i = 0; i &lt; ROWS; i++) {
-  for (int j = 0; j &lt; COLUMNS; j++) {
-    destination_matrix[i][j] = source_matrix[i][j];
-  }
+//  ...
+
+int main() {
+    int m1[R][C];
+    int m2[R][C];
+
+    fillMatrix(m1,4,3);
+    dumpMatrix(m1,4,3);
+    copyMatrix(m1,m2,4,3);
+    dumpMatrix(m2,4,3);    
+		rrotateMatrix(m2,4,3);
+    dumpMatrix(m2,3,4);
+
+    return 0;
+}</code></pre><h3 id="dd52029d-b256-4644-b873-b46598870f92" class="block-color-teal_background"><strong>2. Filling Matrix with Wequential Numbers</strong></h3><pre id="e766be53-0745-4783-ae33-d465baa7ab0f" class="code code-wrap"><code>void fillMatrix(int m[R][C], int rsize, int csize) {
+    for(int r=0; r&lt;rsize; r++)
+        for(int c=0; c&lt;csize; c++)
+            m[r][c]=r*csize+c;
+}</code></pre><h3 id="eb712dc2-db51-4630-b4c5-41075277c926" class="block-color-teal_background"><strong>3. Initialize a Matrix with Specific Value</strong></h3><pre id="60686119-078f-4b16-b615-d36a9ee9a307" class="code code-wrap"><code>void initMatrix(int m[R][C], int rsize, int csize, int val) {
+    for(int r=0; r&lt;rsize; r++)
+        for(int c=0; c&lt;csize; c++)
+            m[r][c]=val;
+}</code></pre><h3 id="7eef643c-b71b-4a97-b4d9-ae6c24d8307a" class="block-color-teal_background"><strong>4. Copy Matrices</strong></h3><pre id="b760dd59-0c14-4112-8795-b78b52a1a68e" class="code code-wrap"><code>void copyMatrix(int src[R][C], int des[R][C], int rsize, int csize) {
+    for(int r=0; r&lt;rsize; r++)
+        for(int c=0; c&lt;csize; c++)
+            des[r][c]=src[r][c];
+}</code></pre><h3 id="f1ab2b69-ec85-4d1a-978a-eba165d4797e" class="block-color-teal_background"><strong>5. Flipping (vertical and horizontal) Matrices</strong></h3><p id="7413d5c7-0925-43a3-a531-87e617b3a294" class="">A 2D array can be flipped vertically or horizontally using the following code:</p><pre id="4c227532-0502-4027-919a-2b0b29093681" class="code code-wrap"><code>void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
 }
-</code></pre><h3 id="f1ab2b69-ec85-4d1a-978a-eba165d4797e" class="block-color-teal_background"><strong>5. Flipping (vertical and horizontal) matrices</strong></h3><p id="7413d5c7-0925-43a3-a531-87e617b3a294" class="">A 2D array can be flipped vertically or horizontally using the following code:</p><pre id="4c227532-0502-4027-919a-2b0b29093681" class="code code-wrap"><code>int matrix[ROWS][COLUMNS];
 
 // Flip vertically
-for (int i = 0; i &lt; ROWS / 2; i++) {
-  for (int j = 0; j &lt; COLUMNS; j++) {
-    int temp = matrix[i][j];
-    matrix[i][j] = matrix[ROWS - 1 - i][j];
-    matrix[ROWS - 1 - i][j] = temp;
-  }
+void vflipMatrix(int m[R][C], int rsize, int csize) {
+    for(int r1=0, r2=rsize-1; r1&lt;r2; r1++, r2--)
+        for(int c=0; c&lt;csize; c++)
+            swap(&amp;m[r1][c],&amp;m[r2][c]);
 }
 
 // Flip horizontally
-for (int i = 0; i &lt; ROWS; i++) {
-  for (int j = 0; j &lt; COLUMNS / 2; j++) {
-    int temp = matrix[i][j];
-    matrix[i][j] = matrix[i][COLUMNS - 1 - j];
-    matrix[i][COLUMNS - 1 - j] = temp;
-  }
-}</code></pre><h3 id="b2daa106-6a34-4c4e-8b8b-55439409b807" class="block-color-teal_background">6. Rotating (clockwise or counter-clockwise) <strong>matrices</strong></h3><pre id="19af360b-0c76-4deb-8a4c-0c4c2fb85ca6" class="code code-wrap"><code>int matrix[ROWS][COLUMNS];
-
-// Rotate clockwise
-for (int i = 0; i &lt; ROWS / 2; i++) {
-  for (int j = 0; j &lt; COLUMNS / 2; j++) {
-    int temp = matrix[i][j];
-    matrix[i][j] = matrix[ROWS - 1 - i][COLUMNS - 1 - j];
-    matrix[ROWS - 1 - i][COLUMNS - 1 - j] = matrix[ROWS - 1 - j][i];
-    matrix[ROWS - 1 - j][i] = matrix[j][ROWS - 1 - i];
-    matrix[j][ROWS - 1 - i] = temp;
-  }
+void hflipMatrix(int m[R][C], int rsize, int csize) {
+    for(int r=0; r&lt;rsize; r++)
+        for(int c1=0, c2=csize-1; c1&lt;c2; c1++, c2--)
+            swap(&amp;m[r][c1],&amp;m[r][c2]);
+}</code></pre><h3 id="b2daa106-6a34-4c4e-8b8b-55439409b807" class="block-color-teal_background">6. Rotating (clockwise or counter-clockwise) M<strong>atrices</strong></h3><pre id="19af360b-0c76-4deb-8a4c-0c4c2fb85ca6" class="code code-wrap"><code>// Rotate Clockwise
+void rrotateMatrix(int m[R][C], int rsize, int csize) {
+    int mt[R][C];
+    copyMatrix(m,mt,rsize,csize);
+    for(int r1=0,r2=rsize-1; r1&lt;rsize; r1++, r2--)
+        for(int c=0; c&lt;csize; c++)
+            m[c][r2] = mt[r1][c];
 }
 
-// Rotate counter-clockwise
-for (int i = 0; i &lt; ROWS / 2; i++) {
-  for (int j = 0; j &lt; COLUMNS / 2; j++) {
-    int temp = matrix[i][j];
-    matrix[i][j] = matrix[j][ROWS - 1 - i];
-    matrix[j][ROWS - 1 - i] = matrix[ROWS - 1 - i][COLUMNS - 1 - j];
-    matrix[ROWS - 1 - i][COLUMNS - 1 - j] = matrix[ROWS - 1 - j][i];
-    matrix[ROWS - 1 - j][i] = temp;
-  }
-}</code></pre><p id="b714ecbe-3254-4199-ab09-153ddb071ea8" class="">
-</p><p id="5ef23114-7f4c-46a5-8e60-75fa91f1cf39" class="">
+// Rotate Counter-clockwise
+void lrotateMatrix(int m[R][C], int rsize, int csize) {
+    int mt[R][C];
+    copyMatrix(m,mt,rsize,csize);
+    for(int r=0; r&lt;rsize; r++)
+        for(int c1=0,c2=csize-1; c1&lt;csize; c1++, c2--)
+            m[c2][r] = mt[r][c1];
+}</code></pre><p id="ef5b63f9-9a2e-4b79-996c-592c10099223" class="">
 </p><figure id="a151f9d5-84f3-4d52-ab8e-93cf5427159b" class="image"><a href="Lecture%20C%20Matrix%20(2D%20arrays)%20Manipulations%205818a73de0124c0e9e1f5964090f51a0/3.png"><img style="width:1200px" src="Lecture%20C%20Matrix%20(2D%20arrays)%20Manipulations%205818a73de0124c0e9e1f5964090f51a0/3.png"/></a></figure><p id="7b5deaa5-d1de-4bde-ae2e-a4ef5be026fc" class="">
 </p><p id="3736e8f2-2586-445d-9607-23b5b9613f8d" class="">
 </p></div></article>
