@@ -1,0 +1,763 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: C++ Dynamic Memory</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="84cc6083-c031-41be-b969-fb75a159f0e8" class="page sans"><header><img class="page-cover-image" src="Lecture%20C++%20Dynamic%20Memory%2084cc6083c03141beb969fb75a159f0e8/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20C++%20Dynamic%20Memory%2084cc6083c03141beb969fb75a159f0e8/yang01.png"/></div><h1 class="page-title">Lecture: C++ Dynamic Memory</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><h3 id="da4b007f-2aaa-4116-bf2a-1c3abd390980" class="block-color-teal_background">Dynamic Memory Allocation in C++</h3><p id="fc3a3a9c-e636-4c30-be04-717d7f54c413" class="">In C++, you can use the <code>new</code> operator to dynamically allocate memory on the heap. This replaces the need for <code>malloc</code>, <code>calloc</code>, and <code>realloc</code>, which are used in C.</p><p id="1326925b-1bef-44ad-838a-0d7ca3224883" class="">Here&#x27;s how you can use <code>new</code> to allocate memory:</p><ol type="1" id="049ad9eb-5a15-4c40-8027-2074f1d477cb" class="numbered-list" start="1"><li><strong>Allocating memory for a single object:</strong></li></ol><pre id="3dadb7e4-a958-4844-9cd1-a97f7e8b5135" class="code code-wrap"><code>// Equivalent to malloc(sizeof(int))
+int* pInt = new int;
+
+// Equivalent to calloc(5, sizeof(double))
+double* pDoubleArray = new double[5];
+</code></pre><ol type="1" id="bcf8698a-ddd4-412d-ba49-467899e0a906" class="numbered-list" start="1"><li><strong>Allocating memory for arrays:</strong></li></ol><pre id="cf4ea055-5c05-4a54-8ee1-8d0156bce134" class="code code-wrap"><code>// Equivalent to calloc(10, sizeof(char))
+char* pCharArray = new char[10];
+
+// Equivalent to malloc(20 * sizeof(float))
+float* pFloatArray = new float[20];
+
+// Note that there&#x27;s no need to multiply the size with sizeof(T) in the new operator.
+// It automatically takes care of the size based on the data type.
+</code></pre><ol type="1" id="57ccdb07-37e9-40cf-a0ee-f794afe23992" class="numbered-list" start="1"><li><strong>Reallocating memory (resizing an array):</strong>
+Unlike in C, C++ does not have a direct replacement for <code>realloc</code>. In C++, when you want to resize an array dynamically, you&#x27;ll need to create a new array and copy the elements from the old array to the new one.</li></ol><p id="9112e5fb-b0dd-4aec-a152-2c0b3a755e6c" class="">Here&#x27;s an example of how you can &quot;resize&quot; an array in C++:</p><pre id="53981468-397d-48e6-a767-51360cab930a" class="code code-wrap"><code>// Create an array of size 5
+int* pArray = new int[5];
+
+// Copy the elements to a new array of size 10
+int* pNewArray = new int[10];
+for (int i = 0; i &lt; 5; ++i) {
+    pNewArray[i] = pArray[i];
+}
+
+// Release the memory occupied by the old array
+delete[] pArray;
+
+// Point the pointer to the new array
+pArray = pNewArray;
+</code></pre><p id="e9dac7d7-df9f-4ab2-85a9-d17b5f1a7787" class="">Remember to always deallocate the memory when you are done using it to avoid memory leaks:</p><pre id="c502c253-d225-4c1b-8b4e-bb23f2309e64" class="code code-wrap"><code>// Deallocate a single object
+delete pInt;
+
+// Deallocate an array
+delete[] pDoubleArray;
+delete[] pCharArray;
+delete[] pFloatArray;
+</code></pre><p id="170831e0-3e14-4cb4-8b64-b7cc6cfa8ddc" class="">It&#x27;s essential to be cautious while using <code>new</code> and <code>delete</code>, as manual memory management can lead to bugs and memory leaks. In modern C++ programming, you should prefer using smart pointers (<code>std::unique_ptr</code> or <code>std::shared_ptr</code>) and containers like <code>std::vector</code> for dynamic memory management, as they help to handle memory automatically and prevent many potential issues.</p><h3 id="1241ca41-24ad-42b1-9fa1-e4c588411051" class="block-color-teal_background">C++ Memory Allocation</h3><p id="b9d0fb00-e2d0-4e4a-80c0-7ac42550b93d" class="">To allocate dynamic memory, C++ provides the <code>new</code> operator. It is used to allocate memory for a single object or an array of objects. The syntax for allocating memory for a single object is:<div class="indented"><pre id="5bc6d953-8602-458a-bc7f-e11b8065907d" class="code code-wrap"><code>int* ptr = new int;  // Allocates memory for a single integer</code></pre><p id="3390dc88-750f-4c83-bf9a-4cb2f3ea5a92" class="">If you need to allocate memory for an array, you can specify the size in square brackets:</p><pre id="69502327-55b2-4927-92cc-8d996e2dad0a" class="code code-wrap"><code>int* arr = new int[10];  // Allocates memory for an array of 10 integers</code></pre></div></p><h3 id="35406994-803d-45a8-9ca9-f5db65178545" class="block-color-teal_background">C++ Memory Deallocation</h3><p id="8ab4b180-6e73-4882-8847-9f2b2aa75403" class="">C++ requires explicit deallocation of dynamically allocated memory to avoid memory leaks. The <code>delete</code> operator is used to free the memory allocated by <code>new</code>. To deallocate a single object, you use:<div class="indented"><pre id="e56fc8d1-11d1-450c-b804-4bfb030559b4" class="code code-wrap"><code>delete ptr;  // Deallocates memory for a single object</code></pre><p id="66b7c685-31ed-4a6c-967a-791fa50f51d6" class="">For dynamically allocated arrays, you use the <code>delete[]</code> operator:</p><pre id="de5bbd98-dc22-458f-9127-99f8f97c1b9b" class="code code-wrap"><code>delete[] arr;  // Deallocates memory for an array</code></pre><p id="f4d0f091-9d4d-48d8-b6d5-6407ceb3a92e" class="">It&#x27;s essential to match <code>new</code> with <code>delete</code> and <code>new[]</code> with <code>delete[]</code> to ensure proper deallocation.</p></div></p><h3 id="609fc732-ef41-415f-9f2e-c88e91c71deb" class="block-color-teal_background">Exception Handling</h3><p id="f74da7dd-1adb-4373-93e3-15866671e74f" class="">Memory allocation can fail due to insufficient memory availability. In such cases, the <code>new</code> operator throws a <code>std::bad_alloc</code> exception. To handle this exception, you can use try-catch blocks:<div class="indented"><pre id="0fb1c3a2-3635-4680-a93f-3308d0d11710" class="code code-wrap"><code>try {
+    int* ptr = new int;
+} catch (const std::bad_alloc&amp; e) {
+    // Handle the exception (e.g., print an error message)
+}</code></pre><p id="ae864ee2-ab43-4511-9944-eba69b52d249" class="">By catching the exception, you can gracefully handle memory allocation failures.</p></div></p><h3 id="24ac6500-825d-4bb3-a5b5-be74757e0103" class="block-color-teal_background">C++ Smart Pointers</h3><p id="5aab1dc7-c5bb-478a-914d-ab3aed953ed2" class="">C++ also provides smart pointers as a safer alternative to raw pointers for managing dynamic memory. Smart pointers, such as <code>std::unique_ptr</code> and <code>std::shared_ptr</code>, automatically handle deallocation when they go out of scope or are no longer referenced. They help prevent memory leaks and make memory management more convenient.<div class="indented"><pre id="b193d5d8-3986-48fb-a522-5dffc3ec710d" class="code code-wrap"><code>#include &lt;memory&gt;
+
+std::unique_ptr&lt;int&gt; ptr = std::make_unique&lt;int&gt;();  // Allocates memory
+// No need to explicitly deallocate memory
+
+std::shared_ptr&lt;int&gt; sharedPtr = std::make_shared&lt;int&gt;();  // Allocates memory
+// Memory is automatically deallocated when no more references exist</code></pre></div></p><p id="80f710cb-53a9-44ab-afba-2cfe91f47518" class="">Smart pointers use RAII (Resource Acquisition Is Initialization) to ensure deallocation occurs reliably. <code>std::unique_ptr</code> and <code>std::shared_ptr</code> are smart pointer types provided by the C++ Standard Library. They are used to manage the ownership and lifetime of dynamically allocated objects.</p><p id="c5ec1639-ce38-41b2-82ad-533a5f1e0828" class="">The main difference between <code>std::unique_ptr</code> and <code>std::shared_ptr</code> lies in their ownership semantics:</p><ol type="1" id="6e645ddd-61ed-412a-aae6-0a23f5b4847e" class="numbered-list" start="1"><li>Ownership: <code>std::unique_ptr</code> represents exclusive ownership of an object. It ensures that only one <code>std::unique_ptr</code> can own the object at any given time. When the <code>std::unique_ptr</code> goes out of scope or is explicitly reset, it automatically deletes the managed object. This ownership model is useful when you have a single owner and want to transfer ownership or have exclusive control over the lifetime of the object.</li></ol><ol type="1" id="cf921da7-ef11-4999-8987-119c04ae9f15" class="numbered-list" start="2"><li>Shared Ownership: <code>std::shared_ptr</code> allows multiple <code>std::shared_ptr</code> instances to share ownership of the same object. It uses reference counting to keep track of the number of references to the object. When the last <code>std::shared_ptr</code> owning the object goes out of scope or is explicitly reset, the managed object is deleted. This ownership model is suitable when you need multiple owners with shared access to the object and want the object to be automatically deleted when no owners remain.</li></ol><p id="2de5d5be-4880-496f-873d-142d4a80edde" class="">Here are some additional considerations:</p><ul id="a154b03d-266a-4d80-9ff5-ea5d2908f594" class="bulleted-list"><li style="list-style-type:disc"><code>std::unique_ptr</code> is generally more lightweight and efficient than <code>std::shared_ptr</code> because it avoids the overhead of reference counting.</li></ul><ul id="ec727ae2-304e-4572-9c4a-908218cb138d" class="bulleted-list"><li style="list-style-type:disc"><code>std::unique_ptr</code> cannot be copied but can be moved, allowing for transferring ownership of the managed object. On the other hand, <code>std::shared_ptr</code> supports both copying and moving, and each copy creates a new shared ownership relationship.</li></ul><ul id="c602fc71-5e28-4dec-95ed-0ff02afe19a6" class="bulleted-list"><li style="list-style-type:disc"><code>std::unique_ptr</code> is often used in resource management scenarios where ownership needs to be transferred, such as managing dynamically allocated memory or handling unique resources like file handles.</li></ul><ul id="712e194f-9a26-4192-94fd-009592777d41" class="bulleted-list"><li style="list-style-type:disc"><code>std::shared_ptr</code> is commonly used when shared ownership is required, for example, in shared data structures, caches, or scenarios where objects are accessed by multiple components.</li></ul><p id="906915d9-9118-47d8-8d61-84e70df1d80b" class="">It&#x27;s worth noting that C++11 introduced these smart pointers as part of the C++ Standard Library, providing a safer and more convenient alternative to raw pointers for managing dynamic memory and resources.</p><h3 id="16d78eef-74d1-4390-aa72-e66f08eeca84" class="block-color-teal_background">Smart Pointers Example</h3><p id="585861d3-7389-40f2-9fa8-a903579ac5a2" class="">In modern C++, smart pointers and standard containers are widely used to manage dynamic memory in a safe and efficient manner. Let&#x27;s demonstrate how to use <code>std::unique_ptr</code> and <code>std::vector</code> to handle dynamic memory:</p><p id="833e450f-39b0-4861-a0d3-5f52168a921b" class=""><strong>Using </strong><code><strong>std::unique_ptr</strong></code><strong> for single objects:</strong><code>std::unique_ptr</code> is a smart pointer that automatically manages the memory it points to and ensures that the memory is deallocated when it goes out of scope.</p><pre id="847cd5c3-0a7b-4a4b-8814-c77c5e355e69" class="code code-wrap"><code>#include &lt;memory&gt; // Include the memory header for smart pointers
+
+int main() {
+    // Allocate memory for a single integer using std::unique_ptr
+    std::unique_ptr&lt;int&gt; pInt = std::make_unique&lt;int&gt;(42);
+
+    // No need to manually deallocate, as std::unique_ptr will handle it automatically
+
+    // Access the value using the pointer
+    int value = *pInt;
+    std::cout &lt;&lt; &quot;Value: &quot; &lt;&lt; value &lt;&lt; std::endl;
+
+    // The memory will be automatically released when pInt goes out of scope.
+    return 0;
+}
+</code></pre><p id="82996a98-727d-4323-b1db-ac56c9dc6556" class=""><strong>Using </strong><code><strong>std::vector</strong></code><strong> for dynamic arrays:</strong><code>std::vector</code> is a dynamic array container that automatically manages the memory and provides convenient functions for resizing and accessing elements.</p><pre id="503e5169-7312-4bc2-928d-22366a849e2d" class="code code-wrap"><code>#include &lt;vector&gt; // Include the vector header for dynamic arrays
+
+int main() {
+    // Create a dynamic array of integers using std::vector
+    std::vector&lt;int&gt; intVector;
+
+    // Add elements to the vector
+    intVector.push_back(10);
+    intVector.push_back(20);
+    intVector.push_back(30);
+
+    // Access elements using indexing
+    std::cout &lt;&lt; &quot;First element: &quot; &lt;&lt; intVector[0] &lt;&lt; std::endl;
+
+    // Use vector size to iterate over elements
+    for (size_t i = 0; i &lt; intVector.size(); ++i) {
+        std::cout &lt;&lt; &quot;Element &quot; &lt;&lt; i &lt;&lt; &quot;: &quot; &lt;&lt; intVector[i] &lt;&lt; std::endl;
+    }
+
+    // The memory will be automatically released when the vector goes out of scope.
+    return 0;
+}
+</code></pre><p id="c26d3f4a-16ac-4a8a-9b6a-b5db442af995" class="">By using <code>std::unique_ptr</code> and <code>std::vector</code>, you don&#x27;t need to worry about manual memory deallocation, as these modern C++ features handle it automatically, reducing the risk of memory leaks and making your code safer and easier to maintain. Remember to include the appropriate headers (<code>&lt;memory&gt;</code> for <code>std::unique_ptr</code> and <code>&lt;vector&gt;</code> for <code>std::vector</code>) in your code.</p><p id="224c8344-2f9c-40f6-89aa-be62efb01410" class="">
+</p><figure id="5c3c23e7-714f-4459-a955-1e01337a15f2" class="image"><a href="Lecture%20C++%20Dynamic%20Memory%2084cc6083c03141beb969fb75a159f0e8/3.png"><img style="width:1200px" src="Lecture%20C++%20Dynamic%20Memory%2084cc6083c03141beb969fb75a159f0e8/3.png"/></a></figure><p id="f276ae71-7f80-4e93-9a73-8f148157f74b" class="">
+</p><p id="efb192ed-00e0-4bf5-9514-87fa01774f47" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>

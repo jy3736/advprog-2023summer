@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lecture: Example of C Struct Usage</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="1668c73d-113a-495a-8670-21d50d6827da" class="page sans"><header><img class="page-cover-image" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/7.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/yang01.png"/></div><h1 class="page-title">Lecture: Example of C Struct Usage</h1><p class="page-description"></p><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b76aa8e4-a64c-4464-b802-b27481b47b02"><div style="font-size:1.5em"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/icons8-chatgpt-480.png"/></div><div style="width:100%">A C struct named <code><strong>Student</strong></code> is defined, which represents a data structure to hold information about a student. The <code><strong>Student</strong></code> struct contains five members:<ol type="1" id="0a3e2045-a2fd-43c8-a786-a0492bcf72a6" class="numbered-list" start="1"><li><code><strong>id</strong></code>: This is an array of characters (a string) with a size of 10. It is used to store the student&#x27;s identification or ID number. The ID number can be up to 9 characters long, and the last element of the array is reserved for the null terminator <code><strong>\0</strong></code>.</li></ol><ol type="1" id="d8e96f2f-760c-4281-a741-eb5a6bb7996f" class="numbered-list" start="2"><li><code><strong>grade</strong></code>: This is an array of integers with a size of 10. It is used to store the student&#x27;s grades for up to 10 different subjects or assignments. The array can store integer values representing the grades obtained by the student.</li></ol><ol type="1" id="e7bed520-c4f8-4aad-8aab-d1d7310526cf" class="numbered-list" start="3"><li><code><strong>avg</strong></code>: This is an integer variable used to store the average grade of the student. It represents the overall average of all the grades stored in the <code><strong>grade</strong></code> array.</li></ol><ol type="1" id="3ba6314a-afed-41d2-b241-fe322d05e536" class="numbered-list" start="4"><li><code><strong>mid</strong></code>: This is an integer variable used to store the mid-term exam grade of the student. It represents the grade obtained by the student in a specific mid-term exam.</li></ol><ol type="1" id="143a846f-7767-413a-a931-3c12480bcfa1" class="numbered-list" start="5"><li><code><strong>rank</strong></code>: This is an integer variable used to store the rank or position of the student. It is likely meant to store the student&#x27;s rank relative to their peers based on their average grade, but the code snippet alone doesn&#x27;t provide the specific implementation details for ranking the students.</li></ol><p id="51aa3fd2-c2bb-4ab6-8c06-0674720caeee" class="">Finally, the <code><strong>typedef</strong></code> keyword is used to create an alias <code><strong>STD</strong></code> for the <code><strong>struct Student</strong></code>. This makes it easier to declare variables of the <code><strong>Student</strong></code> struct by using the <code><strong>STD</strong></code> alias instead of writing <code><strong>struct Student</strong></code> every time.</p></div></figure><pre id="185939b2-79a1-423a-92bc-1a2288a16dfb" class="code code-wrap"><code>#include &lt;stdio.h&gt;
+
+struct Student {
+    char id[10];
+    int grade[10];
+    int avg;
+    int mid;
+		int rank;
+};
+
+typedef struct Student STD;</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="30e3a313-a9bb-4fe2-abe4-b68065833e51"><div style="font-size:1.5em"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/icons8-chatgpt-480%201.png"/></div><div style="width:100%">This code provides a way to calculate and store the average and the average of the best 5 grades for a list of students. To use this code, you need to have an array of <code>Student</code> objects and then call the <code>calAvgAll</code> function, passing the array and its size as arguments. After the function call, each <code>Student</code> object in the array will have its <code>avg</code> and <code>mid</code> members updated with the calculated averages.<ol type="1" id="84cc8168-836e-4297-b0b7-0fd419f5ede0" class="numbered-list" start="1"><li><code>void sortArray(int arr[], int size)</code>: This function takes an integer array <code>arr</code> and its size <code>size</code> as inputs and sorts the array in descending order using the Bubble Sort algorithm. Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The sorting is done in descending order to arrange grades from highest to lowest.</li></ol><ol type="1" id="fd13dfd6-7f54-472e-beea-91e8776b661e" class="numbered-list" start="2"><li><code>void calAvg(struct Student* ss)</code>: This function calculates the average and the average of the best 5 grades for a single <code>Student</code> object. It takes a pointer to the <code>Student</code> object as input.<ul id="36144ac8-4922-43c9-9828-ea4bf367a1c5" class="bulleted-list"><li style="list-style-type:disc">It first calculates the average of all grades by summing up all the grades in the <code>grade</code> array and then dividing by the total number of grades (which is assumed to be 10).</li></ul><ul id="eecb1bb5-b8f6-41db-9f53-c33de1cef6fe" class="bulleted-list"><li style="list-style-type:disc">It then creates a copy of the <code>grade</code> array and sorts the copied array using the previously defined <code>sortArray</code> function to get the best grades at the beginning of the array.</li></ul><ul id="2a35f09e-685f-4481-b022-a1d1a545d0f7" class="bulleted-list"><li style="list-style-type:disc">It calculates the average of the best 5 grades by summing up the first 5 elements of the sorted array and then dividing by 5 (the number of best grades to consider). The result is stored in the <code>avg</code> and <code>mid</code> members of the <code>Student</code> structure.</li></ul></li></ol><ol type="1" id="63b5f54b-5cf5-4b71-8ec7-5c5ccb1bf58a" class="numbered-list" start="3"><li><code>void calAvgAll(STD ss[], int size)</code>: This function takes an array of <code>Student</code> objects (represented by the <code>STD</code> typedef) and its size <code>size</code> as inputs. It calls the <code>calAvg</code> function for each <code>Student</code> object in the array to calculate and store the average and the average of the best 5 grades for each student.</li></ol></div></figure><pre id="df6b6d39-5a73-46ea-9fef-83159f238e90" class="code code-wrap"><code>// Function to sort an array in descending order
+void sortArray(int arr[], int size) {
+    for (int i = 0; i &lt; size - 1; i++) {
+        for (int j = 0; j &lt; size - i - 1; j++) {
+            if (arr[j] &lt; arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void calAvg(struct Student* ss) {
+    // Calculate the average of all grades (avg)
+    int sum = 0;
+    int numGrades = 10; 
+    for (int i = 0; i &lt; numGrades; i++) {
+        sum += ss-&gt;grade[i];
+    }
+    ss-&gt;avg = sum / numGrades;
+
+    // Calculate the average of the best 5 grades (mid)
+    int numBestGrades = 5;
+    int bestGradesCopy[10];
+    for (int i = 0; i &lt; numGrades; i++) {
+        bestGradesCopy[i] = ss-&gt;grade[i];
+    }
+
+    // Sort the copied grades array to get the best grades
+    sortArray(bestGradesCopy, numGrades);
+
+    // Calculate the average of the best grades
+    int sumBestGrades = 0;
+    for (int i = 0; i &lt; numBestGrades; i++) {
+        sumBestGrades += bestGradesCopy[i];
+    }
+    ss-&gt;mid = sumBestGrades / numBestGrades;
+}
+
+void calAvgAll(STD ss[], int size) {
+    for(int i=0; i&lt;size; i++)
+        calAvg(&amp;ss[i]);
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="83e67d0b-3f92-45b9-88e8-31ad28c2e1c5"><div style="font-size:1.5em"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/icons8-chatgpt-480%202.png"/></div><div style="width:100%">The <code>calRanking</code> function takes an array of <code>STD</code> structs and its size as input. It calculates the ranking of each student based on their average grade and mid-term exam grade. The ranking is stored in the <code>rank</code> member of each <code>STD</code> struct.<ol type="1" id="d54f5037-b8b4-4678-8fa8-dcf392449fab" class="numbered-list" start="1"><li>It dynamically allocates an array <code>g</code> of floating-point numbers with a size equal to the number of students (<code>size</code>) using <code>calloc</code>.</li></ol><ol type="1" id="85c3f4fc-eae9-4120-a5f7-601a31a3ffb1" class="numbered-list" start="2"><li>It calculates a weighted score for each student, storing it in the <code>g</code> array. The weighted score is calculated using 60% of the student&#x27;s average grade and 40% of the student&#x27;s mid-term exam grade.</li></ol><ol type="1" id="c194c157-2cc3-488a-8317-07f39e14ae30" class="numbered-list" start="3"><li>It then calculates the ranking for each student by comparing their weighted score with other students in the array. The student with the highest weighted score gets the rank of 1, and the rank is incremented for students with lower scores.</li></ol><ol type="1" id="27e6910c-d8d1-47c8-8e5c-7d27af4912d9" class="numbered-list" start="4"><li>After calculating the ranking, the dynamically allocated memory for the <code>g</code> array is released using <code>free</code>.</li></ol></div></figure><pre id="41e783b7-9789-49c0-9d77-a8ba5da76e68" class="code"><code>void calRanking(STD ss[], int size) {
+    float* g = (float*)calloc(size,sizeof(float));
+    
+    for(int i=0; i&lt;size; i++)
+        g[i] = ss[i].avg*0.6+ss[i].mid*0.4;
+    for(int i=0; i&lt;size; i++) {
+        ss[i].rank = 1;
+        for(int j=0; j&lt;size; j++)
+            if (g[i]&lt;g[j]) ss[i].rank++;
+    }
+    
+    free(g);
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3776b5b2-5603-4086-b7e6-0f3aea6ffa6d"><div style="font-size:1.5em"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/icons8-chatgpt-480%202.png"/></div><div style="width:100%">The code provides two functions: <code>dumpSTD</code> and <code>dumpAll</code> to print information about students.<ol type="1" id="8ceb03bd-6b3e-45c7-b74e-e647e27f6dab" class="numbered-list" start="1"><li><code>void dumpSTD(STD s)</code>: This function prints information for a single student (<code>s</code>) in a structured manner. It prints the student&#x27;s ID followed by their grades, average, mid-term grade, and rank.</li></ol><ol type="1" id="ac7f6104-5521-46a3-ad21-992dee39da1e" class="numbered-list" start="2"><li><code>void dumpAll(STD ss[], int size)</code>: This function takes an array of students (<code>ss</code>) and its size (<code>size</code>) as input. It calls <code>dumpSTD</code> for each student in the array, printing the information of all students one after another.</li></ol></div></figure><pre id="74f6e282-b0b8-4d41-8a6c-6962a8f652a0" class="code code-wrap"><code>void dumpSTD(STD s) {
+    printf(&quot;%10s &quot;,s.id);
+    for(int i=0; i&lt;10; i++)
+        printf(&quot;%4d &quot;,s.grade[i]);
+    printf(&quot;%4d %4d %4d\n&quot;,s.avg,s.mid,s.rank);
+}
+
+void dumpAll(STD ss[], int size) {
+    for(int i=0; i&lt;size; i++)
+        dumpSTD(ss[i]);
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0a21c500-e81c-423d-b9cc-17a5ce460898"><div style="font-size:1.5em"><img class="icon" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/icons8-chatgpt-480%202.png"/></div><div style="width:100%">This code defines the main function, which creates an array of structures named &quot;s&quot; to store student data. Each structure (STD) represents a student and contains their ID, an array of 10 test scores, and two additional fields for future use. The main function then proceeds to perform the following actions:<ol type="1" id="833c1fd2-4da4-4621-9689-1b9d027d8288" class="numbered-list" start="1"><li><code>dumpAll(s, size);</code>: This function is called to display the initial data of all students, including their IDs and test scores.</li></ol><ol type="1" id="4e6f1df9-8411-463f-b05d-edcc8a7b730c" class="numbered-list" start="2"><li><code>calAvgAll(s, size);</code>: This function is called to calculate the average score for each student and store it in the &quot;avg&quot; and “mid” fields of the corresponding structure.</li></ol><ol type="1" id="777ecadb-0614-4693-bf80-3740012651e2" class="numbered-list" start="3"><li><code>dumpAll(s, size);</code>: This function is called again to display the updated data of all students, including their IDs, test scores, and newly calculated average scores.</li></ol><ol type="1" id="b8f313b7-5b58-4c47-89fa-48ccb2ac6644" class="numbered-list" start="4"><li><code>calRanking(s, size);</code>: This function is called to assign rankings to the students based on their avg and mid scores, and the rankings are stored in the &quot;rank&quot; field of each structure.</li></ol><ol type="1" id="87763583-9627-4999-8fa6-4765d06a6739" class="numbered-list" start="5"><li><code>dumpAll(s, size);</code>: This function is called once more to display the final data of all students, including their ids, test scores, average scores, and ranks.</li></ol><p id="578918ea-d52e-469e-aad5-f5d5fd5b719c" class="">After these actions are performed, the main function returns 0, indicating successful execution of the program.</p></div></figure><pre id="1d5f2e0b-3ecc-47cf-ac8b-0b93b885f77a" class="code code-wrap"><code>int main() {
+    STD s[] = {
+        {&quot;a12301&quot;,{50,40,60,70,80,90,90,70,70,100},0,0},
+        {&quot;a12302&quot;,{70,80,80,70,80,90,90,90,90,100},0,0},
+        {&quot;a12303&quot;,{30,50,20,50,50,30,20,50,60,70},0,0},
+        {&quot;a12304&quot;,{60,60,60,70,70,70,80,80,80,80},0,0},
+        {&quot;a12305&quot;,{80,90,80,0,0,90,90,80,100,100},0,0},        
+        {&quot;a12306&quot;,{30,50,20,50,50,30,20,50,60,70},0,0},
+        {&quot;a12307&quot;,{50,40,60,70,80,90,90,70,70,100},0,0},
+    };
+    int size = sizeof(s)/sizeof(STD);
+    
+    dumpAll(s,size);
+    calAvgAll(s,size);
+    dumpAll(s,size);
+    calRanking(s,size);
+    dumpAll(s,size);    
+    
+    return 0;
+}</code></pre><h3 id="938f40a9-a260-4776-ac8b-e510b13e585f" class="block-color-yellow">Output of the Program</h3><pre id="a070852a-246a-4164-8d85-f8814023a2dd" class="code code-wrap"><code>		a12301  50   40   60   70   80   90   90   70   70  100    0    0    0
+    a12302  70   80   80   70   80   90   90   90   90  100    0    0    0
+    a12303  30   50   20   50   50   30   20   50   60   70    0    0    0
+    a12304  60   60   60   70   70   70   80   80   80   80    0    0    0
+    a12305  80   90   80    0    0   90   90   80  100  100    0    0    0
+    a12306  30   50   20   50   50   30   20   50   60   70    0    0    0
+    a12307  50   40   60   70   80   90   90   70   70  100    0    0    0
+
+    a12301  50   40   60   70   80   90   90   70   70  100   72   86    0
+    a12302  70   80   80   70   80   90   90   90   90  100   84   92    0
+    a12303  30   50   20   50   50   30   20   50   60   70   43   56    0
+    a12304  60   60   60   70   70   70   80   80   80   80   71   78    0
+    a12305  80   90   80    0    0   90   90   80  100  100   71   94    0
+    a12306  30   50   20   50   50   30   20   50   60   70   43   56    0
+    a12307  50   40   60   70   80   90   90   70   70  100   72   86    0
+
+    a12301  50   40   60   70   80   90   90   70   70  100   72   86    3
+    a12302  70   80   80   70   80   90   90   90   90  100   84   92    1
+    a12303  30   50   20   50   50   30   20   50   60   70   43   56    6
+    a12304  60   60   60   70   70   70   80   80   80   80   71   78    5
+    a12305  80   90   80    0    0   90   90   80  100  100   71   94    2
+    a12306  30   50   20   50   50   30   20   50   60   70   43   56    6
+    a12307  50   40   60   70   80   90   90   70   70  100   72   86    3</code></pre><figure id="5eee4f84-ada8-41cd-ae6e-9f362ea05faa" class="image"><a href="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/3.png"><img style="width:1200px" src="Lecture%20Example%20of%20C%20Struct%20Usage%201668c73d113a495a867021d50d6827da/3.png"/></a></figure><p id="418e2514-9683-4c64-a9d5-61f0331e2df5" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
